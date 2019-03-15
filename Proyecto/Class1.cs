@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto
 {
-    class Class1
+    class Coso
     {
     }
 }
