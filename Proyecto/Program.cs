@@ -74,7 +74,7 @@ namespace Proyecto.Console
                                 resp = HttpUtility.HtmlDecode(bResponseItem.incorrect_answers[j].ToString());
                                 j++;
                             }
-                            System.Console.WriteLine("{0} {1}", i,resp);
+                            System.Console.WriteLine("-{0} {1}", i,resp);
                         }
                     }
                 }
