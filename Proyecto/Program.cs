@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -48,34 +48,34 @@ namespace Proyecto.Console
                     // Se iteran cada uno de los resultados.
                     foreach (var bResponseItem in mResponseJSON.results)
                     {
-                        //// De esta manera se accede a los componentes de cada item
-                        //// Se decodifican algunos elementos HTML
-                        //System.Console.WriteLine("Solo pregunta -> {0}", HttpUtility.HtmlDecode(bResponseItem.question.ToString()));
+                        // De esta manera se accede a los componentes de cada item
+                        // Se decodifican algunos elementos HTML
+                        System.Console.WriteLine("Solo pregunta -> {0}", HttpUtility.HtmlDecode(bResponseItem.question.ToString()));
 
-                        //// Se muestra por pantalla cada item completo
-                        //System.Console.WriteLine("Item completo -> {0}", bResponseItem);
+                        // Se muestra por pantalla cada item completo
+                        System.Console.WriteLine("Item completo -> {0}", bResponseItem);
 
 
-                        System.Console.WriteLine(HttpUtility.HtmlDecode(bResponseItem.question.ToString()));
+                        //System.Console.WriteLine(HttpUtility.HtmlDecode(bResponseItem.question.ToString()));
 
-                        Random rnd = new Random();
-                        int valor = rnd.Next(1, 4);
-                        string resp;
-                        int j = 0;
-                        for (int i = 1; i<= 4; i++)
-                        {
+                        //Random rnd = new Random();
+                        //int valor = rnd.Next(1, 4);
+                        //string resp;
+                        //int j = 0;
+                        //for (int i = 1; i<= 4; i++)
+                        //{
 
-                            if (i == valor)
-                            {
-                                resp = HttpUtility.HtmlDecode(bResponseItem.correct_answer.ToString());
-                            }
-                            else
-                            {
-                                resp = HttpUtility.HtmlDecode(bResponseItem.incorrect_answers[j].ToString());
-                                j++;
-                            }
-                            System.Console.WriteLine("{0} {1}", i,resp);
-                        }
+                        //    if (i == valor)
+                        //    {
+                        //        resp = HttpUtility.HtmlDecode(bResponseItem.correct_answer.ToString());
+                        //    }
+                        //    else
+                        //    {
+                        //        resp = HttpUtility.HtmlDecode(bResponseItem.incorrect_answers[j].ToString());
+                        //        j++;
+                        //    }
+                        //    System.Console.WriteLine("{0} {1}", i,resp);
+                        //}
                     }
                 }
             }
