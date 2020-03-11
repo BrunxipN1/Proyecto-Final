@@ -1,29 +1,36 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto
 {
     internal class Respuesta
     {
-        private int iIdRespuesta;
-        private string iLaRespuesta;
-        private bool iCorrecta;
-
-        public int IdRespuesta
+        /// <summary>
+        /// Identificador de la respuesta
+        /// </summary>
+        [Key]
+        public int IdRespuesta { get; set; }
+        /// <summary>
+        /// String que define la respuesta
+        /// </summary>
+        public string SRespuesta { get; set; }
+        /// <summary>
+        /// Booleano que define si la respuesta es correcta o no
+        /// </summary>
+        public bool Correcta { get; set; }
+        /// <summary>
+        /// Posible respuesta a una pregunta
+        /// </summary>
+        /// <param name="pRespuesta">Texto que define la respuesta</param>
+        /// <param name="pCorrecta">Define si es correcta(true) o incorrecta(false)</param>
+        public Respuesta(string pRespuesta, bool pCorrecta)
         {
-            get { return this.iIdRespuesta; }
-            set { this.iIdRespuesta = value; }
-        }
+            this.SRespuesta = pRespuesta;
+            this.Correcta = pCorrecta;
+        } 
 
-        public string LaRespuesta
-        {
-            get { return this.iLaRespuesta; }
-            set { this.iLaRespuesta = value; }
-        }
 
-        public bool Correcta
-        {
-            get { return this.iCorrecta; }
-            set { this.iCorrecta = value; }
-        }
+
     }
 }

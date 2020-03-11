@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{84FF76AF-93D3-4401-8590-3B8F3D6B811E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>Proyecto</RootNamespace>
     <AssemblyName>Proyecto</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
@@ -62,7 +62,14 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -90,7 +97,17 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Windows.Forms.DataVisualization.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -100,15 +117,57 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Categoria.cs" />
     <Compile Include="ControladorProyecto.cs" />
     <Compile Include="Dificultad.cs" />
+    <Compile Include="WAgregarCategoria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WAgregarCategoria.Designer.cs">
+      <DependentUpon>WAgregarCategoria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WMain.Designer.cs">
+      <DependentUpon>WMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaginaWeb.cs" />
     <Compile Include="Pregunta.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Respuesta.cs" />
-    <Compile Include="TipoPregunta.cs" />
+    <Compile Include="TriviaContext.cs" />
+    <Compile Include="WPreguntaManual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WPreguntaManual.Designer.cs">
+      <DependentUpon>WPreguntaManual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Proyecto_TriviaContextDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Proyecto_TriviaContextDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="_Proyecto_TriviaContextDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Proyecto_TriviaContextDataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="_Proyecto_TriviaContextDataSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Proyecto_TriviaContextDataSet2.xsd</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="WAgregarCategoria.resx">
+      <DependentUpon>WAgregarCategoria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WMain.resx">
+      <DependentUpon>WMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -119,6 +178,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="WPreguntaManual.resx">
+      <DependentUpon>WPreguntaManual.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -130,9 +192,44 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Proyecto_TemporaryKey.pfx" />
+    <None Include="_Proyecto_TriviaContextDataSet.xsc">
+      <DependentUpon>_Proyecto_TriviaContextDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="_Proyecto_TriviaContextDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>_Proyecto_TriviaContextDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="_Proyecto_TriviaContextDataSet.xss">
+      <DependentUpon>_Proyecto_TriviaContextDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="_Proyecto_TriviaContextDataSet1.xsc">
+      <DependentUpon>_Proyecto_TriviaContextDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="_Proyecto_TriviaContextDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>_Proyecto_TriviaContextDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="_Proyecto_TriviaContextDataSet1.xss">
+      <DependentUpon>_Proyecto_TriviaContextDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="_Proyecto_TriviaContextDataSet2.xsc">
+      <DependentUpon>_Proyecto_TriviaContextDataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="_Proyecto_TriviaContextDataSet2.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>_Proyecto_TriviaContextDataSet2.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="_Proyecto_TriviaContextDataSet2.xss">
+      <DependentUpon>_Proyecto_TriviaContextDataSet2.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
