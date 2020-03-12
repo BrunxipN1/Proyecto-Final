@@ -29,5 +29,7 @@ namespace Proyecto
             this.NombreDificultad = pNombre;
             this.Valor = pValor;
         }
+
+        public Dificultad() { }
     }
 }

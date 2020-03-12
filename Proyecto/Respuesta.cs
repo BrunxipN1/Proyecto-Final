@@ -28,9 +28,9 @@ namespace Proyecto
         {
             this.SRespuesta = pRespuesta;
             this.Correcta = pCorrecta;
-        } 
+        }
 
-
+        public Respuesta() { }
 
     }
 }

@@ -19,9 +19,18 @@ namespace Proyecto
         /// Categoría para las preguntas
         /// </summary>
         /// <param name="pNombre">Nombre de la categoría</param>
-        public Categoria (string pNombre)
+        public int IdWeb { get; set; }
+        public Categoria(string pNombre, int pIdWeb)
         {
             this.NombreCategoria = pNombre;
+            this.IdWeb = pIdWeb;
         }
+
+        public Categoria(string pNombre)
+        {
+            this.NombreCategoria = pNombre;
+            this.IdWeb = 0;
+        }
+        public Categoria() { }
     }
 }

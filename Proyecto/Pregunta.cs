@@ -33,11 +33,8 @@ namespace Proyecto
         /// <summary>
         /// Respuestas incorrectas
         /// </summary>
-        public IList<Respuesta> RespuestasIncorrectas { get; set; }
-        /// <summary>
-        /// Respuestas correctas
-        /// </summary>
-        public Respuesta RespuestaCorrecta { get; set; }
+        public IList<Respuesta> Respuestas { get; set; }
+
         /// <summary>
         /// Una pregunta
         /// </summary>
@@ -46,13 +43,14 @@ namespace Proyecto
         /// <param name="pDif">Dificultad de la pregunta</param>
         /// <param name="pRespIncorrectas">Lista de respuestas incorrectas</param>
         /// <param name="pRespCorrecta">La respuesta correcta</param>
-        public Pregunta(string pPregunta, Categoria pCategoria, Dificultad pDif, IList<Respuesta> pRespIncorrectas, Respuesta pRespCorrecta)
+        public Pregunta(string pPregunta, Categoria pCategoria, Dificultad pDif, IList<Respuesta> pRespuestas)
             {
             this.LaPregunta = pPregunta;
             this.Categoria = pCategoria;
             this.Dificultad = pDif;
-            this.RespuestasIncorrectas = pRespIncorrectas;
-            this.RespuestaCorrecta = pRespCorrecta;
+            this.Respuestas = pRespuestas;
             }
+
+        public Pregunta() { }
     }
 }

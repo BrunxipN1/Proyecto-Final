@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace Proyecto
 {
-    public partial class WPreguntaManual : Form
+    public partial class WAgregarPreguntasWeb : Form
     {
         
         public WMain iVentanaMain;
         private Boolean iAceptado;
 
-        public WPreguntaManual()
+        public WAgregarPreguntasWeb()
         {
             InitializeComponent();
             using (TriviaContext db = new TriviaContext())
@@ -33,28 +33,18 @@ namespace Proyecto
 
         private void Aceptar_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(TPregunta.Text) & !string.IsNullOrWhiteSpace(TRespuestaCorrecta.Text) & !string.IsNullOrWhiteSpace(TRespIncorrecta1.Text) & !string.IsNullOrWhiteSpace(TRespIncorrecta2.Text) & !string.IsNullOrWhiteSpace(TRespIncorrecta3.Text))
+            if (TCantidad.Value != 0)
             {
                 Categoria iCategoria = TCategoria.SelectedItem as Categoria;
                 Dificultad iDificultad = TDificultad.SelectedItem as Dificultad;
-                
-                List<Respuesta> iRespuestas = new List<Respuesta>
-                {
-                    new Respuesta(TRespuestaCorrecta.Text, true),
-                    new Respuesta(TRespIncorrecta1.Text, false),
-                    new Respuesta(TRespIncorrecta2.Text, false),
-                    new Respuesta(TRespIncorrecta3.Text, false),
-                };
-                Pregunta iPregunta = new Pregunta(TPregunta.Text, iCategoria, iDificultad, iRespuestas);
-                List<Pregunta> lPregunta = new List<Pregunta> { iPregunta };
-                ControladorProyecto.AgregarPreguntas(lPregunta);
-                MessageBox.Show("The question has been added!", "Success!", MessageBoxButtons.OK);
+                ControladorProyecto.AgregarPorUrl(iCategoria, iDificultad, Convert.ToInt32(TCantidad.Value));
+                MessageBox.Show("All the questions have been added!", "Success!", MessageBoxButtons.OK);
                 iAceptado = true;
                 this.Close();
             }
             else
             {
-                MessageBox.Show("One or more fields are empty", "Warning", MessageBoxButtons.OK);
+                MessageBox.Show("The amount field must be greater than 0", "Warning", MessageBoxButtons.OK);
             }
 
 
@@ -87,7 +77,14 @@ namespace Proyecto
 
         }
 
+        private void Label1_Click(object sender, EventArgs e)
+        {
 
+        }
 
+        private void TDificultad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

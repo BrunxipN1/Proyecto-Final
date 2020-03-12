@@ -44,11 +44,6 @@ namespace Proyecto
             this.TRespIncorrecta3 = new System.Windows.Forms.TextBox();
             this.Cancelar = new System.Windows.Forms.Button();
             this.Aceptar = new System.Windows.Forms.Button();
-            this._Proyecto_TriviaContextDataSet1 = new Proyecto._Proyecto_TriviaContextDataSet1();
-            this.categoriasBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.categoriasTableAdapter = new Proyecto._Proyecto_TriviaContextDataSet1TableAdapters.CategoriasTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this._Proyecto_TriviaContextDataSet1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.categoriasBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // lPregunta
@@ -94,17 +89,12 @@ namespace Proyecto
             // 
             this.TCategoria.AccessibleName = "";
             this.TCategoria.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.TCategoria.DataSource = this.categoriasBindingSource;
-            this.TCategoria.DisplayMember = "NombreCategoria";
             this.TCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.TCategoria.FormattingEnabled = true;
             this.TCategoria.Location = new System.Drawing.Point(140, 155);
-            this.TCategoria.Name = "TCategoria";
             this.TCategoria.Size = new System.Drawing.Size(212, 21);
             this.TCategoria.TabIndex = 4;
-            this.TCategoria.Tag = "iCategoriaSeleccionada";
-            this.TCategoria.ValueMember = "IdCategoria";
-            this.TCategoria.SelectedIndexChanged += new System.EventHandler(this.TCategoria_SelectedIndexChanged);
+
             // 
             // label3
             // 
@@ -119,12 +109,14 @@ namespace Proyecto
             // TDificultad
             // 
             this.TDificultad.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.TDificultad.DisplayMember = "NombreDificultad";
             this.TDificultad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.TDificultad.FormattingEnabled = true;
             this.TDificultad.Location = new System.Drawing.Point(515, 154);
             this.TDificultad.Name = "TDificultad";
             this.TDificultad.Size = new System.Drawing.Size(212, 21);
             this.TDificultad.TabIndex = 6;
+            this.TDificultad.ValueMember = "IdDificultad";
             // 
             // label4
             // 
@@ -201,21 +193,6 @@ namespace Proyecto
             this.Aceptar.Text = "Aceptar";
             this.Aceptar.UseVisualStyleBackColor = true;
             this.Aceptar.Click += new System.EventHandler(this.Aceptar_Click);
-            // 
-            // _Proyecto_TriviaContextDataSet1
-            // 
-            this._Proyecto_TriviaContextDataSet1.DataSetName = "_Proyecto_TriviaContextDataSet1";
-            this._Proyecto_TriviaContextDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // categoriasBindingSource
-            // 
-            this.categoriasBindingSource.DataMember = "Categorias";
-            this.categoriasBindingSource.DataSource = this._Proyecto_TriviaContextDataSet1;
-            // 
-            // categoriasTableAdapter
-            // 
-            this.categoriasTableAdapter.ClearBeforeFill = true;
-            // 
             // WPreguntaManual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -240,9 +217,6 @@ namespace Proyecto
             this.Name = "WPreguntaManual";
             this.Text = "WPreguntaManual";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WPreguntaManual_FormClosing);
-            this.Load += new System.EventHandler(this.WPreguntaManual_Load);
-            ((System.ComponentModel.ISupportInitialize)(this._Proyecto_TriviaContextDataSet1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.categoriasBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -265,8 +239,5 @@ namespace Proyecto
         private System.Windows.Forms.TextBox TRespIncorrecta3;
         private System.Windows.Forms.Button Cancelar;
         private System.Windows.Forms.Button Aceptar;
-        private _Proyecto_TriviaContextDataSet1 _Proyecto_TriviaContextDataSet1;
-        private System.Windows.Forms.BindingSource categoriasBindingSource;
-        private _Proyecto_TriviaContextDataSet1TableAdapters.CategoriasTableAdapter categoriasTableAdapter;
     }
 }

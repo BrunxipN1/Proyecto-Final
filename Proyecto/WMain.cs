@@ -21,6 +21,8 @@ namespace Proyecto
 
         private void VerPreguntas_Click(object sender, EventArgs e)
         {
+            //ControladorProyecto.HardcodeamelasCategoriasmaestro();
+            //ControladorProyecto.Hardcodeameladificultadmaestro();
         }
 
         private void PreguntaManual_Click(object sender, EventArgs e)
@@ -33,15 +35,15 @@ namespace Proyecto
 
         private void PreguntaWeb_Click(object sender, EventArgs e)
         {
-
+            this.Visible = false;
+            WAgregarPreguntasWeb vAddPregWeb = new WAgregarPreguntasWeb();
+            vAddPregWeb.Show();
+            vAddPregWeb.iVentanaMain = this;
         }
 
         private void AgregarCategoria_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
-            WAgregarCategoria vAddCat = new WAgregarCategoria();
-            vAddCat.Show();
-            vAddCat.iVentanaMain = this;
+
         }
     }
 }
