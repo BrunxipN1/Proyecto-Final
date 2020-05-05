@@ -21,10 +21,10 @@ namespace Proyecto
             InitializeComponent();
             using (TriviaContext db = new TriviaContext())
             {
-                TDificultad.DataSource = db.Dificultad.ToList();
+                TDificultad.DataSource = db.Dificultades.ToList();
                 TDificultad.ValueMember = "IdDificultad";
                 TDificultad.DisplayMember = "NombreDificultad";
-                TCategoria.DataSource = db.Categoria.ToList();
+                TCategoria.DataSource = db.Categorias.ToList();
                 TCategoria.ValueMember = "IdCategoria";
                 TCategoria.DisplayMember = "NombreCategoria";
             }

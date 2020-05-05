@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace Proyecto
 {
-    public partial class WAgregarPreguntasWeb : Form
+    public partial class WConfigurarTrivia : Form
     {
         
         public WMain iVentanaMain;
-        private Boolean iAceptado;
+        internal Usuario iUsuario;
 
-        public WAgregarPreguntasWeb()
+        public WConfigurarTrivia()
         {
             InitializeComponent();
             using (TriviaContext db = new TriviaContext())
@@ -28,54 +28,35 @@ namespace Proyecto
                 TCategoria.ValueMember = "IdCategoria";
                 TCategoria.DisplayMember = "NombreCategoria";
             }
-            iAceptado = false;
         }
 
         private void Aceptar_Click(object sender, EventArgs e)
         {
-            if (TCantidad.Value != 0)
+            if (TCantidad.Value != 0) 
             {
                 Categoria iCategoria = TCategoria.SelectedItem as Categoria;
                 Dificultad iDificultad = TDificultad.SelectedItem as Dificultad;
-                ControladorProyecto.AgregarPorUrl(iCategoria, iDificultad, Convert.ToInt32(TCantidad.Value));
-                MessageBox.Show("All the questions have been added!", "Success!", MessageBoxButtons.OK);
-                iAceptado = true;
+                WTrivia vTrivia = new WTrivia();
+                List<Pregunta> mLPreguntas = ControladorProyecto.ObtenerListaPregunta(iCategoria, iDificultad, Convert.ToInt32(TCantidad.Value));
+                vTrivia.iVentanaMain = iVentanaMain;
+                vTrivia.iLPreguntas = mLPreguntas;
+                vTrivia.iUsuario = this.iUsuario;
+                vTrivia.ConstruirDatos();
+                vTrivia.Show();
                 this.Close();
             }
             else
             {
                 MessageBox.Show("The amount field must be greater than 0", "Warning", MessageBoxButtons.OK);
             }
-
-
         }
 
         private void Cancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+            iVentanaMain.Visible = true;
         }
-
-        private void WPreguntaManual_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-            if (!iAceptado) {
-                DialogResult iDialogResult = MessageBox.Show("Are you sure you want to close the form?", "Warning", MessageBoxButtons.YesNo);
-                if (iDialogResult == DialogResult.No)
-                {
-                    e.Cancel = true;
-                }
-                else
-                {
-                    iVentanaMain.Visible = true;
-                }
-
-            }
-            else
-            {
-                iVentanaMain.Visible = true;
-            }
-
-        }
+       
 
         private void Label1_Click(object sender, EventArgs e)
         {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto
 {
-    internal class Dificultad
+    public class Dificultad
     {
         /// <summary>
         /// Identificador de la dificultad

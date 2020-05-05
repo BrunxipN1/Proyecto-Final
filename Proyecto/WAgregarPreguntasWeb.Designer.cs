@@ -46,9 +46,9 @@ namespace Proyecto
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(43, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(376, 36);
+            this.label1.Size = new System.Drawing.Size(291, 36);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Ingrese los datos que se piden a continuación \r\npara agregar Preguntas via WEB";
+            this.label1.Text = "Enter the requested information to \r\nautomatically add questions by web";
             this.label1.Click += new System.EventHandler(this.Label1_Click);
             // 
             // label2
@@ -111,7 +111,7 @@ namespace Proyecto
             this.Cancelar.Name = "Cancelar";
             this.Cancelar.Size = new System.Drawing.Size(145, 32);
             this.Cancelar.TabIndex = 13;
-            this.Cancelar.Text = "Cancelar";
+            this.Cancelar.Text = "Cancel";
             this.Cancelar.UseVisualStyleBackColor = true;
             this.Cancelar.Click += new System.EventHandler(this.Cancelar_Click);
             // 
@@ -121,7 +121,7 @@ namespace Proyecto
             this.Aceptar.Name = "Aceptar";
             this.Aceptar.Size = new System.Drawing.Size(128, 32);
             this.Aceptar.TabIndex = 14;
-            this.Aceptar.Text = "Aceptar";
+            this.Aceptar.Text = "Accept";
             this.Aceptar.UseVisualStyleBackColor = true;
             this.Aceptar.Click += new System.EventHandler(this.Aceptar_Click);
             // 
@@ -153,7 +153,7 @@ namespace Proyecto
             this.Controls.Add(this.label1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Name = "WAgregarPreguntasWeb";
-            this.Text = "WPreguntaManual";
+            this.Text = "Trivia";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WPreguntaManual_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.TCantidad)).EndInit();
             this.ResumeLayout(false);

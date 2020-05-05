@@ -4,13 +4,17 @@ namespace Proyecto
 {
    class TriviaContext: DbContext
     {
-        public DbSet<Pregunta> Pregunta { get; set; }
+        public DbSet<Pregunta> Preguntas { get; set; }
 
-        public DbSet<Respuesta> Respuesta { get; set; }
+        public DbSet<Respuesta> Respuestas { get; set; }
 
-        public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
-        public DbSet<Dificultad> Dificultad { get; set; }
+        public DbSet<Dificultad> Dificultades { get; set; }
+
+        public DbSet<Usuario> Usuarios { get; set; }
+
+        public DbSet<Puntaje> Puntajes { get; set; }
     }
 
 }

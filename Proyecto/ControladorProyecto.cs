@@ -12,6 +12,49 @@ namespace Proyecto
 
     internal static class ControladorProyecto
     {
+
+        public static void AgregarUsuario (Usuario pUser)
+        {
+            using (TriviaContext db = new TriviaContext())
+            {
+                db.Usuarios.Add(pUser);
+                db.SaveChanges();
+            }
+        }
+
+        public static bool NombreUsuarioExistente(string pNombreUsuario)
+        {
+            using (TriviaContext db = new TriviaContext())
+            {
+                Usuario mUsuario = db.Usuarios.ToList().FirstOrDefault(usr => usr.NombreUsuario == pNombreUsuario);
+                if (mUsuario == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+                //if (db.Usuarios.Count() > 0)
+                //{
+                    
+                //}
+                //else
+                //{
+                //    return false;
+                //}
+            }
+        }
+
+        public static Usuario ObtenerUsuario(string pNombreUsuario, string pPassword)
+        {
+            using (TriviaContext db = new TriviaContext())
+            {
+                Usuario mUsuario = db.Usuarios.ToList().FirstOrDefault(usr => (usr.NombreUsuario == pNombreUsuario) & (usr.Password == pPassword));
+                return mUsuario;
+            }
+        }
+
         /// <summary>
         /// Agrega una lista de preguntas a la base de datos
         /// </summary>
@@ -22,22 +65,24 @@ namespace Proyecto
             {
                 foreach (Pregunta bItem in pPreguntas)
                 {
-                    Categoria iCategoria = db.Categoria.FirstOrDefault(cat => cat.NombreCategoria == bItem.Categoria.NombreCategoria);
-                    if (iCategoria == null)
+                    Categoria mCategoria = db.Categorias.FirstOrDefault(cat => cat.NombreCategoria == bItem.Categoria.NombreCategoria);
+                    if (mCategoria == null)
                     {
-                        db.Categoria.Add(bItem.Categoria);
-                        iCategoria = db.Categoria.First(cat => cat.NombreCategoria == bItem.Categoria.NombreCategoria);
+                        db.Categorias.Add(bItem.Categoria);
+                        mCategoria = db.Categorias.First(cat => cat.NombreCategoria == bItem.Categoria.NombreCategoria);
                     }
 
-                    Dificultad iDificultad = db.Dificultad.First(dif => dif.NombreDificultad == bItem.Dificultad.NombreDificultad);
-                    bItem.Categoria = iCategoria;
-                    bItem.Dificultad = iDificultad;
-                    db.Pregunta.Add(bItem);
+                    Dificultad mDificultad = db.Dificultades.First(dif => dif.NombreDificultad == bItem.Dificultad.NombreDificultad);
+                    bItem.Categoria = mCategoria;
+                    bItem.Dificultad = mDificultad;
+                    db.Preguntas.Add(bItem);
                 }
 
                 db.SaveChanges();
             }
         }
+
+
 
         public static void AgregarPorUrl(Categoria pCategoria, Dificultad pDificultad, int pCantidad)
         {
@@ -116,8 +161,18 @@ namespace Proyecto
 
             using (TriviaContext db = new TriviaContext())
             {
-                db.Categoria.Add(pCategoria);
+                db.Categorias.Add(pCategoria);
 
+                db.SaveChanges();
+            }
+        }
+
+        public static void AgregarPuntaje(Usuario pUsuario, Puntaje pPuntaje)
+        {
+            using (TriviaContext db = new TriviaContext())
+            {
+                pPuntaje.Usuario = db.Usuarios.Find(pUsuario.IdUsuario);
+                db.Puntajes.Add(pPuntaje);
                 db.SaveChanges();
             }
         }
@@ -132,7 +187,7 @@ namespace Proyecto
             }
             using (TriviaContext db = new TriviaContext())
             {
-                Categoria iCategoria = db.Categoria.Find(pId);
+                Categoria iCategoria = db.Categorias.Find(pId);
                 return iCategoria;
             }
         }
@@ -145,10 +200,62 @@ namespace Proyecto
             }
             using (TriviaContext db = new TriviaContext())
             {
-                Dificultad iDificultad = db.Dificultad.Find(pId);
+                Dificultad iDificultad = db.Dificultades.Find(pId);
                 return iDificultad;
             }
         }
+
+        public static List<Pregunta> ObtenerListaPregunta(Categoria pCategoria, Dificultad pDificultad, int pCantidad)
+        {
+            List<Pregunta> mLPreguntas = new List<Pregunta>();
+
+            using (TriviaContext db = new TriviaContext())
+            {
+                List<Pregunta> mLPregDeCat = db.Preguntas
+                    .Include("Categoria")
+                    .Include("Dificultad")
+                    .Include("Respuestas")
+                    .Where(preg => (preg.Categoria.IdCategoria == pCategoria.IdCategoria) && (preg.Dificultad.NombreDificultad == pDificultad.NombreDificultad)).ToList();
+                int mCount = mLPregDeCat.Count;
+                Random mRandom = new Random();
+               
+                int i = 0;
+                while (i < pCantidad)
+                {
+                    int mIndex = mRandom.Next(mCount);
+                    Pregunta mPregunta = mLPregDeCat[mIndex];
+                    if (mLPreguntas.FirstOrDefault(preg => preg.LaPregunta == mPregunta.LaPregunta) == null)
+                    {
+                        mLPreguntas.Add(mPregunta);
+                        i++;
+                    }
+                }
+                return mLPreguntas;
+            }
+        }
+
+
+        public static List<Respuesta> ObtenerListaRandomRespuestas(Pregunta pPregunta)
+        {
+            Random pRandom = new Random();
+            return pPregunta.Respuestas.OrderBy(r => pRandom.Next()).ToList();
+        }
+
+
+        public static List<Puntaje> ObtenerListaPuntajes()
+        {
+            using (TriviaContext db = new TriviaContext())
+            {
+                return db.Puntajes.Include("Usuario").OrderByDescending(punt => punt.ValorPuntaje).Take(20).ToList();
+            }
+        }
+
+
+
+
+
+
+
 
 
         public static void HardcodeamelasCategoriasmaestro()
@@ -189,9 +296,9 @@ namespace Proyecto
                 Dificultad facil = new Dificultad("easy", 1);
                 Dificultad normal = new Dificultad("normal", 3);
                 Dificultad dificil = new Dificultad("hard", 5);
-                db.Dificultad.Add(facil);
-                db.Dificultad.Add(normal);
-                db.Dificultad.Add(dificil);
+                db.Dificultades.Add(facil);
+                db.Dificultades.Add(normal);
+                db.Dificultades.Add(dificil);
                 db.SaveChanges();
             }
         }

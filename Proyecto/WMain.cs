@@ -12,10 +12,16 @@ namespace Proyecto
 {
     public partial class WMain : Form
     {
+        public Usuario iUsuario;
+        public WIniciarSesion iVIniciarSesion;
+        private bool iSalir;
 
-        public WMain()
+        public WMain(Usuario pUsuario)
         {
             InitializeComponent();
+            iUsuario = pUsuario;
+            LNombreUsuario.Text = iUsuario.NombreUsuario;
+            iSalir = true;
         }
 
 
@@ -23,6 +29,10 @@ namespace Proyecto
         {
             //ControladorProyecto.HardcodeamelasCategoriasmaestro();
             //ControladorProyecto.Hardcodeameladificultadmaestro();
+
+            //WIniciarSesion vIniciarSesion = new WIniciarSesion();
+            //vIniciarSesion.Show();
+            //vIniciarSesion.iVentanaMain = this;
         }
 
         private void PreguntaManual_Click(object sender, EventArgs e)
@@ -43,7 +53,46 @@ namespace Proyecto
 
         private void AgregarCategoria_Click(object sender, EventArgs e)
         {
+            List<Puntaje> mPunt = ControladorProyecto.ObtenerListaPuntajes();
+            foreach (Puntaje bPunt in mPunt)
+            {
+                Console.WriteLine("{0} -- {1}",bPunt.ValorPuntaje.ToString(), bPunt.Usuario.NombreUsuario);
+            }
+        }
 
+        private void BJugar_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            WConfigurarTrivia vConfigurarTrivia = new WConfigurarTrivia();
+            vConfigurarTrivia.iUsuario = this.iUsuario;
+            vConfigurarTrivia.Show();
+            vConfigurarTrivia.iVentanaMain = this;
+        }
+
+        private void BCerrarSesion_Click(object sender, EventArgs e)
+        {
+            this.iVIniciarSesion.Visible = true;
+            iSalir = false;
+            this.Close();
+        }
+
+        private void WMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (iSalir)
+            {
+                Application.Exit();
+            }
+        }
+
+        private void BQuit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void VerPuntajes_Click(object sender, EventArgs e)
+        {
+            WPuntajes vPuntajes = new WPuntajes();
+            vPuntajes.Show();
         }
     }
 }

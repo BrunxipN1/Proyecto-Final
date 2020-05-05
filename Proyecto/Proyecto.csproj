@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{84FF76AF-93D3-4401-8590-3B8F3D6B811E}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Proyecto</RootNamespace>
     <AssemblyName>Proyecto</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
@@ -123,6 +123,38 @@
     <Compile Include="Categoria.cs" />
     <Compile Include="ControladorProyecto.cs" />
     <Compile Include="Dificultad.cs" />
+    <Compile Include="Puntuaje.cs" />
+    <Compile Include="Usuario.cs" />
+    <Compile Include="WConfigurarTrivia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WConfigurarTrivia.Designer.cs">
+      <DependentUpon>WConfigurarTrivia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WInicial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WInicial.Designer.cs">
+      <DependentUpon>WInicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WPuntajes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WPuntajes.Designer.cs">
+      <DependentUpon>WPuntajes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WRegistrarse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WRegistrarse.Designer.cs">
+      <DependentUpon>WRegistrarse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WIniciarSesion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WIniciarSesion.Designer.cs">
+      <DependentUpon>WIniciarSesion.cs</DependentUpon>
+    </Compile>
     <Compile Include="WMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +179,33 @@
     <Compile Include="WPreguntaManual.Designer.cs">
       <DependentUpon>WPreguntaManual.cs</DependentUpon>
     </Compile>
+    <Compile Include="WTrivia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WTrivia.Designer.cs">
+      <DependentUpon>WTrivia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WTriviaFinalizada.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WTriviaFinalizada.Designer.cs">
+      <DependentUpon>WTriviaFinalizada.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="WConfigurarTrivia.resx">
+      <DependentUpon>WConfigurarTrivia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WInicial.resx">
+      <DependentUpon>WInicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WPuntajes.resx">
+      <DependentUpon>WPuntajes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WRegistrarse.resx">
+      <DependentUpon>WRegistrarse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WIniciarSesion.resx">
+      <DependentUpon>WIniciarSesion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WMain.resx">
       <DependentUpon>WMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,6 +224,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WPreguntaManual.resx">
       <DependentUpon>WPreguntaManual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WTrivia.resx">
+      <DependentUpon>WTrivia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WTriviaFinalizada.resx">
+      <DependentUpon>WTriviaFinalizada.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

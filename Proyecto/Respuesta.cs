@@ -11,10 +11,12 @@ namespace Proyecto
         /// </summary>
         [Key]
         public int IdRespuesta { get; set; }
+        
         /// <summary>
         /// String que define la respuesta
         /// </summary>
         public string SRespuesta { get; set; }
+
         /// <summary>
         /// Booleano que define si la respuesta es correcta o no
         /// </summary>
