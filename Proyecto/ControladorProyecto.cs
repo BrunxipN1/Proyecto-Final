@@ -82,7 +82,6 @@ namespace Proyecto
             var mUrl = GenerarLink(pCategoria, pDificultad, pCantidad);
             HttpWebRequest mRequest = (HttpWebRequest)WebRequest.Create(mUrl);
 
-            // TODO: solo dios y yo sabiamos como funciona esto. fue en 2017, ahora solo dios lo sabe
             //try
             //{
                 WebResponse mResponse = mRequest.GetResponse();
