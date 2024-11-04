@@ -123,6 +123,12 @@
     <Compile Include="Categoria.cs" />
     <Compile Include="ControladorProyecto.cs" />
     <Compile Include="Dificultad.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Puntuaje.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="WConfigurarTrivia.cs">
@@ -191,6 +197,9 @@
     <Compile Include="WTriviaFinalizada.Designer.cs">
       <DependentUpon>WTriviaFinalizada.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WConfigurarTrivia.resx">
       <DependentUpon>WConfigurarTrivia.cs</DependentUpon>
     </EmbeddedResource>

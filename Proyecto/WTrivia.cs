@@ -97,6 +97,10 @@ namespace Proyecto
             }
             LResultado.Enabled = true;
             BSiguiente.Enabled = true;
+            foreach(Label label in iLLabels)
+            {
+                label.Enabled = false;
+            }
         }
 
         private void BSiguiente_Click(object sender, EventArgs e)
@@ -104,6 +108,10 @@ namespace Proyecto
             iIndex++;
             if (iIndex < iLPreguntas.Count)
             {
+                foreach (Label label in iLLabels)
+                {
+                    label.Enabled = true;
+                }
                 ConstruirDatos();
                 iPararContador = false;
                 BSiguiente.Enabled = false;

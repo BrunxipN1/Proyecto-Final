@@ -7,34 +7,33 @@ using System.IO;
 using System.Text;
 using System.Web;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Diagnostics;
 namespace Proyecto
 {
 
     internal static class ControladorProyecto
     {
+        private static TriviaContext db;
 
+        static ControladorProyecto()
+        {
+            db = new TriviaContext();
+        }
         public static void AgregarUsuario (Usuario pUser)
         {
-            using (TriviaContext db = new TriviaContext())
-            {
                 db.Usuarios.Add(pUser);
                 db.SaveChanges();
-            }
         }
 
         public static bool NombreUsuarioExistente(string pNombreUsuario)
         {
-            using (TriviaContext db = new TriviaContext())
-            {
-                Usuario mUsuario = db.Usuarios.ToList().FirstOrDefault(usr => usr.NombreUsuario == pNombreUsuario);
-                if (mUsuario == null)
-                {
-                    return false;
-                }
-                else
+                Usuario mUsuario = db.Usuarios.FirstOrDefault(usr => usr.NombreUsuario == pNombreUsuario);
+                if (mUsuario != null)
                 {
                     return true;
                 }
+                return false;
                 //if (db.Usuarios.Count() > 0)
                 //{
                     
@@ -43,16 +42,12 @@ namespace Proyecto
                 //{
                 //    return false;
                 //}
-            }
         }
 
         public static Usuario ObtenerUsuario(string pNombreUsuario, string pPassword)
         {
-            using (TriviaContext db = new TriviaContext())
-            {
-                Usuario mUsuario = db.Usuarios.ToList().FirstOrDefault(usr => (usr.NombreUsuario == pNombreUsuario) & (usr.Password == pPassword));
+                Usuario mUsuario = db.Usuarios.FirstOrDefault(usr => (usr.NombreUsuario == pNombreUsuario) & (usr.Password == pPassword));
                 return mUsuario;
-            }
         }
 
         /// <summary>
@@ -61,8 +56,6 @@ namespace Proyecto
         /// <param name="pPreguntas">Lista de preguntas a agregar</param>
         public static void AgregarPreguntas(IList<Pregunta> pPreguntas)
         {
-            using (TriviaContext db = new TriviaContext())
-            {
                 foreach (Pregunta bItem in pPreguntas)
                 {
                     Categoria mCategoria = db.Categorias.FirstOrDefault(cat => cat.NombreCategoria == bItem.Categoria.NombreCategoria);
@@ -79,7 +72,6 @@ namespace Proyecto
                 }
 
                 db.SaveChanges();
-            }
         }
 
 
@@ -90,6 +82,7 @@ namespace Proyecto
             var mUrl = GenerarLink(pCategoria, pDificultad, pCantidad);
             HttpWebRequest mRequest = (HttpWebRequest)WebRequest.Create(mUrl);
 
+            // TODO: solo dios y yo sabiamos como funciona esto. fue en 2017, ahora solo dios lo sabe
             //try
             //{
                 WebResponse mResponse = mRequest.GetResponse();
@@ -132,13 +125,13 @@ namespace Proyecto
 
 
 
-            //        System.Console.WriteLine("Error: {0}", mErrorText);
+            //        System.Debug.WriteLine("Error: {0}", mErrorText);
             //    }
             //}
 
             //catch (Exception ex)
             //{
-            //    System.Console.WriteLine("Error: {0}", ex.Message);
+            //    System.Debug.WriteLine("Error: {0}", ex.Message);
             //}
         }
 
@@ -158,23 +151,17 @@ namespace Proyecto
         /// <param name="pCategoria"></param>
         public static void AgregarCategoria(Categoria pCategoria)
         {
-
-            using (TriviaContext db = new TriviaContext())
-            {
+                // TODO: Si no existe que lo agregue, y try catch please
                 db.Categorias.Add(pCategoria);
 
                 db.SaveChanges();
-            }
         }
 
         public static void AgregarPuntaje(Usuario pUsuario, Puntaje pPuntaje)
         {
-            using (TriviaContext db = new TriviaContext())
-            {
                 pPuntaje.Usuario = db.Usuarios.Find(pUsuario.IdUsuario);
                 db.Puntajes.Add(pPuntaje);
                 db.SaveChanges();
-            }
         }
 
 
@@ -198,19 +185,13 @@ namespace Proyecto
             {
                 pId = Convert.ToInt32(pId);
             }
-            using (TriviaContext db = new TriviaContext())
-            {
                 Dificultad iDificultad = db.Dificultades.Find(pId);
                 return iDificultad;
-            }
         }
 
         public static List<Pregunta> ObtenerListaPregunta(Categoria pCategoria, Dificultad pDificultad, int pCantidad)
         {
             List<Pregunta> mLPreguntas = new List<Pregunta>();
-
-            using (TriviaContext db = new TriviaContext())
-            {
                 List<Pregunta> mLPregDeCat = db.Preguntas
                     .Include("Categoria")
                     .Include("Dificultad")
@@ -231,7 +212,6 @@ namespace Proyecto
                     }
                 }
                 return mLPreguntas;
-            }
         }
 
 
@@ -244,61 +224,78 @@ namespace Proyecto
 
         public static List<Puntaje> ObtenerListaPuntajes()
         {
-            using (TriviaContext db = new TriviaContext())
-            {
                 return db.Puntajes.Include("Usuario").OrderByDescending(punt => punt.ValorPuntaje).Take(20).ToList();
-            }
         }
 
 
-
-
-
-
-
-
-
-        public static void HardcodeamelasCategoriasmaestro()
+        public static async void InicializarCategorias()
         {
-            for (int i = 9; i <= 32; i++)
+            if (db.Categorias.ToList().Count < 23)
             {
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                var mUrl = "https://opentdb.com/api.php?amount=1&category=" + i.ToString();
-
-                HttpWebRequest mRequest = (HttpWebRequest)WebRequest.Create(mUrl);
-
-                WebResponse mResponse = mRequest.GetResponse();
-
-                // Se obtiene los datos de respuesta
-                using (Stream responseStream = mResponse.GetResponseStream())
+                for (int i = 9; i <= 32; i++)
                 {
-                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-
-                    // Se parsea la respuesta y se serializa a JSON a un objeto dynamic
-                    dynamic mResponseJSON = JsonConvert.DeserializeObject(reader.ReadToEnd());
-
-                    foreach (var bResponseItem in mResponseJSON.results)
+                    if (db.Categorias.FirstOrDefault(cat => cat.IdWeb == i) != null)
                     {
-                        String mNombreCategoria = HttpUtility.HtmlDecode(bResponseItem.category.ToString());
-                        Categoria mCategoria = new Categoria(mNombreCategoria, i);
+                        continue;
+                    };
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                        AgregarCategoria(mCategoria);
+                    var mUrl = "https://opentdb.com/api.php?amount=1&category=" + i.ToString();
+                    using (HttpClient client = new HttpClient())
+                    {
+                        int maxRetries = 5; // Número máximo de reintentos
+                        int delay = 2000; // Retraso inicial en milisegundos
+
+                        for (int retry = 0; retry < maxRetries; retry++)
+                        {
+                            try
+                            {
+                                // Hacer la solicitud GET
+                                string json = await client.GetStringAsync(mUrl);
+                                dynamic triviaResponse = JsonConvert.DeserializeObject<Object>(json);
+
+                                // Procesar la respuesta
+                                foreach (var bResponseItem in triviaResponse?.results)
+                                {
+                                    String mNombreCategoria = HttpUtility.HtmlDecode(bResponseItem.category.ToString());
+                                    Categoria mCategoria = new Categoria(mNombreCategoria, i);
+
+                                    AgregarCategoria(mCategoria);
+                                }
+                                break; // Salir del bucle si la solicitud fue exitosa
+                            }
+                            catch (HttpRequestException ex) when (ex.Message.Contains("429"))
+                            {
+                                Debug.WriteLine("Too Many Requests. Retrying...");
+                                await Task.Delay(delay); // Esperar antes de reintentar
+                                delay *= 2; // Incrementar el retraso para el siguiente intento (backoff exponencial)
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine($"Error: {ex.Message}");
+                                break; // Salir del bucle en caso de otro error
+                            }
+                        }
                     }
                 }
             }
         }
 
-        public static void Hardcodeameladificultadmaestro()
+        public static void InicializarDificultades()
         {
             using (TriviaContext db = new TriviaContext())
             {
-                Dificultad facil = new Dificultad("easy", 1);
-                Dificultad normal = new Dificultad("normal", 3);
-                Dificultad dificil = new Dificultad("hard", 5);
-                db.Dificultades.Add(facil);
-                db.Dificultades.Add(normal);
-                db.Dificultades.Add(dificil);
+                List<Dificultad> dificultades = new List<Dificultad>();
+                dificultades.Add(new Dificultad("easy", 1));
+                dificultades.Add(new Dificultad("normal", 3));
+                dificultades.Add(new Dificultad("hard", 5));
+                foreach (Dificultad dificultad in dificultades)
+                {
+                   if (db.Dificultades.FirstOrDefault(dif => dif.NombreDificultad == dificultad.NombreDificultad) == null)
+                    {
+                        db.Dificultades.Add(dificultad);
+                    }
+                }
                 db.SaveChanges();
             }
         }

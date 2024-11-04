@@ -53,11 +53,8 @@ namespace Proyecto
 
         private void AgregarCategoria_Click(object sender, EventArgs e)
         {
-            List<Puntaje> mPunt = ControladorProyecto.ObtenerListaPuntajes();
-            foreach (Puntaje bPunt in mPunt)
-            {
-                Console.WriteLine("{0} -- {1}",bPunt.ValorPuntaje.ToString(), bPunt.Usuario.NombreUsuario);
-            }
+            ControladorProyecto.InicializarDificultades();
+            ControladorProyecto.InicializarCategorias();
         }
 
         private void BJugar_Click(object sender, EventArgs e)
@@ -93,6 +90,11 @@ namespace Proyecto
         {
             WPuntajes vPuntajes = new WPuntajes();
             vPuntajes.Show();
+        }
+
+        private void WMain_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

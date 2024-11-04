@@ -27,6 +27,8 @@ namespace Proyecto
                 {
                     WMain VMain = new WMain(mUsuario);
                     VMain.iVIniciarSesion = this;
+                    VMain.AgregarCategoria.Visible = mUsuario.EsAdmin;
+                    
                     this.Visible = false;
                     VMain.Show();
                 }

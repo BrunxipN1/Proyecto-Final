@@ -32,7 +32,7 @@ namespace Proyecto
             LTiempoD.Text = mTiempo.ToString(@"mm\:ss");
             iCantIncorrectas = iCantPreguntas - iCantCorrectas;
             LCantCorrectas.Text = (iCantCorrectas.ToString("00") + "/" + iCantPreguntas.ToString("00")).ToString();
-            LCantIncorrectas.Text = (iCantIncorrectas + "/" + iCantPreguntas).ToString();
+            LCantIncorrectas.Text = (iCantIncorrectas.ToString("00") + "/" + iCantPreguntas).ToString();
             LDificultad.Text = iDificultad.NombreDificultad.ToString();
             float mValor = CalcularPuntuacion();
             LPuntuacion.Text = mValor.ToString("0.000");
