@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,32 +22,39 @@ namespace Proyecto
 
         private void BCreateAccount_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(TUser.Text) & !string.IsNullOrWhiteSpace(TPass.Text) & !string.IsNullOrWhiteSpace(TConfirm.Text))
-            {
-                if (!ControladorProyecto.NombreUsuarioExistente(TUser.Text))
+            try {
+                if (!string.IsNullOrWhiteSpace(TUser.Text) & !string.IsNullOrWhiteSpace(TPass.Text) & !string.IsNullOrWhiteSpace(TConfirm.Text))
                 {
-                    if (TPass.Text == TConfirm.Text)
+                    if (!ControladorProyecto.NombreUsuarioExistente(TUser.Text))
                     {
-                        Usuario mUsuario = new Usuario(TUser.Text, TPass.Text);
-                        ControladorProyecto.AgregarUsuario(mUsuario);
-                        WMain VMain = new WMain(mUsuario);
-                        VMain.iVIniciarSesion = iVIniciarSesion;
-                        VMain.Show();
-                        this.Close();
+                        if (TPass.Text == TConfirm.Text)
+                        {
+                            Usuario mUsuario = new Usuario(TUser.Text, TPass.Text);
+                            ControladorProyecto.AgregarUsuario(mUsuario);
+                            WMain VMain = new WMain(mUsuario);
+                            VMain.iVIniciarSesion = iVIniciarSesion;
+                            VMain.Show();
+                            this.Close();
+                        }
+                        else
+                        {
+                            LPassMatch.Visible = true;
+                        }
                     }
                     else
                     {
-                        LPassMatch.Visible = true;
+                        LUsernameTaken.Visible = true;
                     }
                 }
                 else
                 {
-                    LUsernameTaken.Visible = true;
+                    MessageBox.Show("One or more fields are empty", "Warning", MessageBoxButtons.OK);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("One or more fields are empty", "Warning", MessageBoxButtons.OK);
+                Log.Error("WRegistrarse - BCreateAccount_Click - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error al crear el usuario. Vuelva a intentar más tarde por favor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

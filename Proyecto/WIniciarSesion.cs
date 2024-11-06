@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,27 +20,34 @@ namespace Proyecto
 
         private void BLogin_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(TUsername.Text) & !string.IsNullOrWhiteSpace(TPass.Text))
-            {
-                Usuario mUsuario = ControladorProyecto.ObtenerUsuario(TUsername.Text, TPass.Text);
-
-                if (mUsuario != null)
+            try {
+                if (!string.IsNullOrEmpty(TUsername.Text) & !string.IsNullOrWhiteSpace(TPass.Text))
                 {
-                    WMain VMain = new WMain(mUsuario);
-                    VMain.iVIniciarSesion = this;
-                    VMain.AgregarCategoria.Visible = mUsuario.EsAdmin;
+                    Usuario mUsuario = ControladorProyecto.ObtenerUsuario(TUsername.Text, TPass.Text);
+
+                    if (mUsuario != null)
+                    {
+                        WMain VMain = new WMain(mUsuario);
+                        VMain.iVIniciarSesion = this;
+                        VMain.AgregarCategoria.Visible = mUsuario.EsAdmin;
                     
-                    this.Visible = false;
-                    VMain.Show();
+                        this.Visible = false;
+                        VMain.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong username or password", "Warning", MessageBoxButtons.OK);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Wrong username or password", "Warning", MessageBoxButtons.OK);
+                    MessageBox.Show("One or more fields are empty", "Warning", MessageBoxButtons.OK);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("One or more fields are empty", "Warning", MessageBoxButtons.OK);
+                Log.Error("WIniciarSesion - BLogin_Click - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error al iniciar sesión.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -49,6 +57,11 @@ namespace Proyecto
             vRegistrarse.iVIniciarSesion = this;
             this.Visible = false;
             vRegistrarse.Show();
+        }
+
+        private void BQuit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

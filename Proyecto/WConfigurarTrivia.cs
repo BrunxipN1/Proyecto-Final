@@ -1,3 +1,4 @@
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,36 +19,51 @@ namespace Proyecto
 
         public WConfigurarTrivia()
         {
-            InitializeComponent();
-            using (TriviaContext db = new TriviaContext())
+            try {
+                InitializeComponent();
+                using (TriviaContext db = new TriviaContext())
+                {
+                    TDificultad.DataSource = db.Dificultades.ToList();
+                    TDificultad.ValueMember = "IdDificultad";
+                    TDificultad.DisplayMember = "NombreDificultad";
+                    TCategoria.DataSource = db.Categorias.ToList();
+                    TCategoria.ValueMember = "IdCategoria";
+                    TCategoria.DisplayMember = "NombreCategoria";
+                }
+            }
+            catch (Exception ex)
             {
-                TDificultad.DataSource = db.Dificultades.ToList();
-                TDificultad.ValueMember = "IdDificultad";
-                TDificultad.DisplayMember = "NombreDificultad";
-                TCategoria.DataSource = db.Categorias.ToList();
-                TCategoria.ValueMember = "IdCategoria";
-                TCategoria.DisplayMember = "NombreCategoria";
+                Log.Error("WConfigurarTrivia - Constructor - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error. Vuelva a intentar más tarde por favor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
             }
         }
 
         private void Aceptar_Click(object sender, EventArgs e)
         {
-            if (TCantidad.Value != 0) 
-            {
-                Categoria iCategoria = TCategoria.SelectedItem as Categoria;
-                Dificultad iDificultad = TDificultad.SelectedItem as Dificultad;
-                WTrivia vTrivia = new WTrivia();
-                List<Pregunta> mLPreguntas = ControladorProyecto.ObtenerListaPregunta(iCategoria, iDificultad, Convert.ToInt32(TCantidad.Value));
-                vTrivia.iVentanaMain = iVentanaMain;
-                vTrivia.iLPreguntas = mLPreguntas;
-                vTrivia.iUsuario = this.iUsuario;
-                vTrivia.ConstruirDatos();
-                vTrivia.Show();
-                this.Close();
+            try {
+                if (TCantidad.Value != 0) 
+                {
+                    Categoria iCategoria = TCategoria.SelectedItem as Categoria;
+                    Dificultad iDificultad = TDificultad.SelectedItem as Dificultad;
+                    WTrivia vTrivia = new WTrivia();
+                    List<Pregunta> mLPreguntas = ControladorProyecto.ObtenerListaPregunta(iCategoria, iDificultad, Convert.ToInt32(TCantidad.Value));
+                    vTrivia.iVentanaMain = iVentanaMain;
+                    vTrivia.iLPreguntas = mLPreguntas;
+                    vTrivia.iUsuario = this.iUsuario;
+                    vTrivia.ConstruirDatos();
+                    vTrivia.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("The amount field must be greater than 0", "Warning", MessageBoxButtons.OK);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("The amount field must be greater than 0", "Warning", MessageBoxButtons.OK);
+                Log.Error("WConfigurarTrivia - Aceptar_Click - 1: {Message}", ex.Message);
+                MessageBox.Show($"Ha ocurrido un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

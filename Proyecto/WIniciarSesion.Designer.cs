@@ -92,6 +92,7 @@
             this.BQuit.TabIndex = 5;
             this.BQuit.Text = "Quit";
             this.BQuit.UseVisualStyleBackColor = true;
+            this.BQuit.Click += new System.EventHandler(this.BQuit_Click);
             // 
             // BLogin
             // 

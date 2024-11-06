@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,6 +29,7 @@ namespace Proyecto
 
         public void ConstruirVentana()
         {
+            try { 
             TimeSpan mTiempo = TimeSpan.FromSeconds(iSegundos);
             LTiempoD.Text = mTiempo.ToString(@"mm\:ss");
             iCantIncorrectas = iCantPreguntas - iCantCorrectas;
@@ -38,6 +40,12 @@ namespace Proyecto
             LPuntuacion.Text = mValor.ToString("0.000");
             iPuntaje = new Puntaje(iUsuario, mValor, DateTime.Now, iSegundos);
             ControladorProyecto.AgregarPuntaje(iUsuario, iPuntaje);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("WTriviaFinalizada - ConstruirVentana - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error. Vuelva a intentar más tarde por favor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 

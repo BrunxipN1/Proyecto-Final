@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,13 +17,21 @@ namespace Proyecto
 
         public WPuntajes()
         {
-            InitializeComponent();
-            iLPuntajes = ControladorProyecto.ObtenerListaPuntajes();
-            int i = 1;
-            foreach  (Puntaje mPunt in iLPuntajes)
+            try { 
+                InitializeComponent();
+                iLPuntajes = ControladorProyecto.ObtenerListaPuntajes();
+                int i = 1;
+                foreach  (Puntaje mPunt in iLPuntajes)
+                {
+                    LView.Items.Add(new ListViewItem(new[]{ i.ToString(), mPunt.Usuario.NombreUsuario.ToString(), mPunt.ValorPuntaje.ToString("0.000"), mPunt.Tiempo.ToString(), mPunt.Fecha.ToString()}));
+                    i++;
+                }
+            }
+            catch (Exception ex)
             {
-                LView.Items.Add(new ListViewItem(new[]{ i.ToString(), mPunt.Usuario.NombreUsuario.ToString(), mPunt.ValorPuntaje.ToString("0.000"), mPunt.Tiempo.ToString(), mPunt.Fecha.ToString()}));
-                i++;
+                Log.Error("WPuntajes - Constructor - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error al obtener la lista de los puntajes.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
             }
         }
 

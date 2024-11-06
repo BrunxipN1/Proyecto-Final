@@ -1,3 +1,4 @@
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,8 +54,15 @@ namespace Proyecto
 
         private void AgregarCategoria_Click(object sender, EventArgs e)
         {
-            ControladorProyecto.InicializarDificultades();
-            ControladorProyecto.InicializarCategorias();
+            try { 
+                ControladorProyecto.InicializarDificultades();
+                ControladorProyecto.InicializarCategorias();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("WMain - AgregarCategoria_Click - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error al importar categorías.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BJugar_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,31 +24,46 @@ namespace Proyecto
         private bool iPararContador;
         private bool iFinalizado;
         public WTrivia()
-        {           
-            InitializeComponent();
-            iLLabels = new List<Label> {
-            this.LRespuesta1,
-            this.LRespuesta2,
-            this.LRespuesta3,
-            this.LRespuesta4
-            };
-            iFinalizado = false;
-            iPararContador = false;
-            iIndex = 0;
-            LTimer.Text = "00:00";
-            iContRespCorrectas = 0;
-            List<Respuesta> iLResp = new List<Respuesta>();            
+        {   
+            try { 
+                InitializeComponent();
+                iLLabels = new List<Label> {
+                this.LRespuesta1,
+                this.LRespuesta2,
+                this.LRespuesta3,
+                this.LRespuesta4
+                };
+                iFinalizado = false;
+                iPararContador = false;
+                iIndex = 0;
+                LTimer.Text = "00:00";
+                iContRespCorrectas = 0;
+                List<Respuesta> iLResp = new List<Respuesta>();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("WTrivia - Constructor - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error al iniciar la trivia. Vuelva a intentar más tarde por favor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
         }
 
         internal void ConstruirDatos()
         {
-            LResultado.Enabled = false;
-            this.LPregunta.Text = iLPreguntas[iIndex].LaPregunta.ToString();
-            iLResp = ControladorProyecto.ObtenerListaRandomRespuestas(iLPreguntas[iIndex]);
-            for (int i = 0; i < 4; i++)
+            try { 
+                LResultado.Enabled = false;
+                this.LPregunta.Text = iLPreguntas[iIndex].LaPregunta.ToString();
+                iLResp = ControladorProyecto.ObtenerListaRandomRespuestas(iLPreguntas[iIndex]);
+                for (int i = 0; i < 4; i++)
+                {
+                    iLLabels[i].BackColor = Color.Black;
+                    iLLabels[i].Text = iLResp[i].SRespuesta.ToString();
+                }
+            }
+            catch (Exception ex)
             {
-                iLLabels[i].BackColor = Color.Black;
-                iLLabels[i].Text = iLResp[i].SRespuesta.ToString();
+                Log.Error("WTrivia - ConstruirDatos - 1: {Message}", ex.Message);
+                throw;
             }
         }
 
@@ -105,31 +121,39 @@ namespace Proyecto
 
         private void BSiguiente_Click(object sender, EventArgs e)
         {
-            iIndex++;
-            if (iIndex < iLPreguntas.Count)
+            try
             {
-                foreach (Label label in iLLabels)
+                iIndex++;
+                if (iIndex < iLPreguntas.Count)
                 {
-                    label.Enabled = true;
+                    foreach (Label label in iLLabels)
+                    {
+                        label.Enabled = true;
+                    }
+                    ConstruirDatos();
+                    iPararContador = false;
+                    BSiguiente.Enabled = false;
                 }
-                ConstruirDatos();
-                iPararContador = false;
-                BSiguiente.Enabled = false;
+                else
+                {
+                    iFinalizado = true;
+                    WTriviaFinalizada vTriviaFinalizada = new WTriviaFinalizada();
+                    vTriviaFinalizada.iUsuario = this.iUsuario;
+                    vTriviaFinalizada.iVentanaMain = iVentanaMain;
+                    vTriviaFinalizada.iSegundos = iSegundos;
+                    vTriviaFinalizada.iCantCorrectas = iContRespCorrectas;
+                    vTriviaFinalizada.iCantPreguntas = iLPreguntas.Count;
+                    vTriviaFinalizada.iDificultad = iLPreguntas.First().Dificultad;
+                    vTriviaFinalizada.ConstruirVentana();
+                    vTriviaFinalizada.Show();
+                    this.Close();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                iFinalizado = true;
-                WTriviaFinalizada vTriviaFinalizada = new WTriviaFinalizada();
-                vTriviaFinalizada.iUsuario = this.iUsuario;
-                vTriviaFinalizada.iVentanaMain = iVentanaMain;
-                vTriviaFinalizada.iSegundos = iSegundos;
-                vTriviaFinalizada.iCantCorrectas = iContRespCorrectas;
-                vTriviaFinalizada.iCantPreguntas = iLPreguntas.Count;
-                vTriviaFinalizada.iDificultad = iLPreguntas.First().Dificultad;
-                vTriviaFinalizada.ConstruirVentana();
-                vTriviaFinalizada.Show();
+                Log.Error("WTrivia - BSiguiente_Click - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
-
             }
         }
 
