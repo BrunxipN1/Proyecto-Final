@@ -20,7 +20,7 @@ namespace Proyecto.Servicios
             };
         }
 
-        public async Task<bool> AgregarUsuario(UsuarioDTO usuarioDTO)
+        public async Task<UsuarioDTO> AgregarUsuario(UsuarioDTO usuarioDTO)
         {
             try
             {
@@ -30,12 +30,39 @@ namespace Proyecto.Servicios
                 var response = await _httpClient.PostAsync("Usuario/crear", content);
                 response.EnsureSuccessStatusCode();
 
-                return true;
+                var responseBody = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<UsuarioDTO>(responseBody);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al agregar el usuario: {ex.Message}");
-                return false;
+                return null;
+            }
+        }
+
+        public async Task<UsuarioDTO> AutenticarUsuario(string nombreUsuario, string password)
+        {
+            try
+            {
+                var loginData = new
+                {
+                    NombreUsuario = nombreUsuario,
+                    Password = password
+                };
+
+                var json = JsonSerializer.Serialize(loginData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync("Usuario/autenticar", content);
+                response.EnsureSuccessStatusCode();
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<UsuarioDTO>(responseBody);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al autenticar el usuario: {ex.Message}");
+                return null;
             }
         }
     }

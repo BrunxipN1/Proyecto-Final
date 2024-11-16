@@ -29,21 +29,22 @@ namespace Proyecto
             {
                 if (!string.IsNullOrWhiteSpace(TUser.Text) && !string.IsNullOrWhiteSpace(TPass.Text) && !string.IsNullOrWhiteSpace(TConfirm.Text))
                 {
-                    var resultado = await _usuarioComponente.RegistrarUsuario(TUser.Text, TPass.Text, TConfirm.Text);
+                    if (TPass.Text != TConfirm.Text)
+                    {
+                        MessageBox.Show("Las contraseñas no coinciden.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                    if (resultado)
+                    var usuarioDTO = await _usuarioComponente.RegistrarUsuario(TUser.Text, TPass.Text);
+
+                    if (usuarioDTO != null)
                     {
                         MessageBox.Show("Usuario creado exitosamente.", "Éxito", MessageBoxButtons.OK);
 
-
-                        // CORREGIRRRRRRRRRRRRRRRRRRR
-                        Usuario mUsuario = new Usuario(TUser.Text, TPass.Text);
-                        ControladorProyecto.AgregarUsuario(mUsuario);
-                        WMain VMain = new WMain(mUsuario);
-
-
-                        VMain.iVIniciarSesion = iVIniciarSesion;
-                        VMain.Show();
+                        // Abre WMain con el usuario recién registrado
+                        WMain vMain = new WMain(usuarioDTO);
+                        vMain.iVIniciarSesion = iVIniciarSesion;
+                        vMain.Show();
                         this.Close();
                     }
                     else
@@ -53,7 +54,7 @@ namespace Proyecto
                 }
                 else
                 {
-                    MessageBox.Show("Uno o más campos están vacíos", "Warning", MessageBoxButtons.OK);
+                    MessageBox.Show("Uno o más campos están vacíos", "Advertencia", MessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)

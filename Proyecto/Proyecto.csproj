@@ -320,7 +320,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Componentes\LoginComponente.txt" />
     <Content Include="Ventanas\WLogin.txt" />
   </ItemGroup>
   <ItemGroup />

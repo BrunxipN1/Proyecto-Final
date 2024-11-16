@@ -1,3 +1,4 @@
+using Proyecto.Servicios.DTO;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,12 @@ namespace Proyecto
 {
     public partial class WMain : Form
     {
-        public Usuario iUsuario;
+        public UsuarioDTO iUsuario;
+        public Usuario borrarUsuario;
         public WIniciarSesion iVIniciarSesion;
         private bool iSalir;
 
-        public WMain(Usuario pUsuario)
+        public WMain(UsuarioDTO pUsuario)
         {
             InitializeComponent();
             iUsuario = pUsuario;
@@ -69,7 +71,7 @@ namespace Proyecto
         {
             this.Visible = false;
             WConfigurarTrivia vConfigurarTrivia = new WConfigurarTrivia();
-            vConfigurarTrivia.iUsuario = this.iUsuario;
+            vConfigurarTrivia.iUsuario = this.borrarUsuario;
             vConfigurarTrivia.Show();
             vConfigurarTrivia.iVentanaMain = this;
         }

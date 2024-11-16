@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Proyecto.Componentes;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,35 +19,35 @@ namespace Proyecto
             InitializeComponent();
         }
 
-        private void BLogin_ClickAsync(object sender, EventArgs e)
+        private async void BLogin_ClickAsync(object sender, EventArgs e)
         {
-            try {
-                if (!string.IsNullOrEmpty(TUsername.Text) & !string.IsNullOrWhiteSpace(TPass.Text))
+            try
+            {
+                if (!string.IsNullOrEmpty(TUsername.Text) && !string.IsNullOrWhiteSpace(TPass.Text))
                 {
-                    Usuario mUsuario = ControladorProyecto.ObtenerUsuario(TUsername.Text, TPass.Text);
+                    var usuarioComponente = new UsuarioComponente();
+                    var usuarioDTO = await usuarioComponente.AutenticarUsuario(TUsername.Text, TPass.Text);
 
-                    if (mUsuario != null)
+                    if (usuarioDTO != null)
                     {
-                        WMain VMain = new WMain(mUsuario);
-                        VMain.iVIniciarSesion = this;
-                        VMain.AgregarCategoria.Visible = mUsuario.EsAdmin;
-                    
+                        WMain vMain = new WMain(usuarioDTO);
+                        vMain.iVIniciarSesion = this;
+                        vMain.Show();
                         this.Visible = false;
-                        VMain.Show();
                     }
                     else
                     {
-                        MessageBox.Show("Wrong username or password", "Warning", MessageBoxButtons.OK);
+                        MessageBox.Show("Nombre de usuario o contraseña incorrectos.", "Advertencia", MessageBoxButtons.OK);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("One or more fields are empty", "Warning", MessageBoxButtons.OK);
+                    MessageBox.Show("Uno o más campos están vacíos", "Advertencia", MessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)
             {
-                Log.Error("WIniciarSesion - BLogin_Click - 1: {Message}", ex.Message);
+                Log.Error("WIniciarSesion - BLogin_ClickAsync - 1: {Message}", ex.Message);
                 MessageBox.Show("Ha ocurrido un error al iniciar sesión.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

@@ -17,20 +17,20 @@ namespace Proyecto.Componentes
             _usuarioServicio = new UsuarioServicio();
         }
 
-        public async Task<bool> RegistrarUsuario(string nombreUsuario, string password, string confirmPassword)
+        public async Task<UsuarioDTO> RegistrarUsuario(string nombreUsuario, string password)
         {
-            if (password != confirmPassword)
-            {
-                throw new Exception("Las contraseñas no coinciden");
-            }
-
             var usuarioDTO = new UsuarioDTO
             {
                 NombreUsuario = nombreUsuario,
+                Password = password,
                 EsAdmin = false
             };
 
             return await _usuarioServicio.AgregarUsuario(usuarioDTO);
+        }
+        public async Task<UsuarioDTO> AutenticarUsuario(string nombreUsuario, string password)
+        {
+            return await _usuarioServicio.AutenticarUsuario(nombreUsuario, password);
         }
     }
 }
