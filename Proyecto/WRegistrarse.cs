@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Proyecto.Componentes;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,47 +15,50 @@ namespace Proyecto
     public partial class WRegistrarse : Form
     {
         public WIniciarSesion iVIniciarSesion;
+        private readonly UsuarioComponente _usuarioComponente;
 
         public WRegistrarse()
         {
             InitializeComponent();
+            _usuarioComponente = new UsuarioComponente();
         }
 
-        private void BCreateAccount_Click(object sender, EventArgs e)
+        private async void BCreateAccount_Click(object sender, EventArgs e)
         {
-            try {
-                if (!string.IsNullOrWhiteSpace(TUser.Text) & !string.IsNullOrWhiteSpace(TPass.Text) & !string.IsNullOrWhiteSpace(TConfirm.Text))
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(TUser.Text) && !string.IsNullOrWhiteSpace(TPass.Text) && !string.IsNullOrWhiteSpace(TConfirm.Text))
                 {
-                    if (!ControladorProyecto.NombreUsuarioExistente(TUser.Text))
+                    var resultado = await _usuarioComponente.RegistrarUsuario(TUser.Text, TPass.Text, TConfirm.Text);
+
+                    if (resultado)
                     {
-                        if (TPass.Text == TConfirm.Text)
-                        {
-                            Usuario mUsuario = new Usuario(TUser.Text, TPass.Text);
-                            ControladorProyecto.AgregarUsuario(mUsuario);
-                            WMain VMain = new WMain(mUsuario);
-                            VMain.iVIniciarSesion = iVIniciarSesion;
-                            VMain.Show();
-                            this.Close();
-                        }
-                        else
-                        {
-                            LPassMatch.Visible = true;
-                        }
+                        MessageBox.Show("Usuario creado exitosamente.", "Éxito", MessageBoxButtons.OK);
+
+
+                        // CORREGIRRRRRRRRRRRRRRRRRRR
+                        Usuario mUsuario = new Usuario(TUser.Text, TPass.Text);
+                        ControladorProyecto.AgregarUsuario(mUsuario);
+                        WMain VMain = new WMain(mUsuario);
+
+
+                        VMain.iVIniciarSesion = iVIniciarSesion;
+                        VMain.Show();
+                        this.Close();
                     }
                     else
                     {
-                        LUsernameTaken.Visible = true;
+                        MessageBox.Show("No se pudo crear el usuario. Intente más tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("One or more fields are empty", "Warning", MessageBoxButtons.OK);
+                    MessageBox.Show("Uno o más campos están vacíos", "Warning", MessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)
             {
-                Log.Error("WRegistrarse - BCreateAccount_Click - 1: {Message}", ex.Message);
-                MessageBox.Show("Ha ocurrido un error al crear el usuario. Vuelva a intentar más tarde por favor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
