@@ -9,7 +9,7 @@ namespace Proyecto.Servicios.DTO
     internal class RespuestaDTO
     {
         public int IdRespuesta { get; set; }
-        public string SRespuesta { get; set; }
+        public string TextoRespuesta { get; set; }
         public bool Correcta { get; set; }
 
     }

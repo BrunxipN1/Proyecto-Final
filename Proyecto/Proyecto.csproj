@@ -177,7 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Categoria.cs" />
-    <Compile Include="Componentes\PreguntaComponente.cs" />
+    <Compile Include="Componentes\TriviaComponente.cs" />
     <Compile Include="Componentes\PuntajeComponente.cs" />
     <Compile Include="Componentes\UsuarioComponente.cs" />
     <Compile Include="ControladorProyecto.cs" />
@@ -192,7 +192,7 @@
     <Compile Include="Servicios\DTO\PuntajeRequestDTO.cs" />
     <Compile Include="Servicios\DTO\RespuestaDTO.cs" />
     <Compile Include="Servicios\DTO\UsuarioDTO.cs" />
-    <Compile Include="Servicios\PreguntaServicio.cs" />
+    <Compile Include="Servicios\TriviaServicio.cs" />
     <Compile Include="Servicios\PuntajeServicio.cs" />
     <Compile Include="Servicios\UsuarioServicio.cs" />
     <Compile Include="Usuario.cs" />

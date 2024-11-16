@@ -18,13 +18,13 @@ namespace Proyecto
 
         public WMain iVentanaMain;
         internal UsuarioDTO iUsuario;
-        private readonly PreguntaComponente _preguntaComponente;
+        private readonly TriviaComponente _triviaComponente;
 
         public WConfigurarTrivia()
         {
             try {
                 InitializeComponent();
-                _preguntaComponente = new PreguntaComponente();
+                _triviaComponente = new TriviaComponente();
                 CargarCategoriasYDificultades();
             }
             catch (Exception ex)
@@ -39,8 +39,8 @@ namespace Proyecto
         {
             try
             {
-                var categorias = await _preguntaComponente.ObtenerCategorias();
-                var dificultades = await _preguntaComponente.ObtenerDificultades();
+                var categorias = await _triviaComponente.ObtenerCategorias();
+                var dificultades = await _triviaComponente.ObtenerDificultades();
 
                 TCategoria.DataSource = categorias;
                 TCategoria.ValueMember = "IdCategoria";
@@ -67,7 +67,7 @@ namespace Proyecto
                     var dificultadId = (int)TDificultad.SelectedValue;
                     var cantidad = (int)TCantidad.Value;
 
-                    var preguntas = await _preguntaComponente.ObtenerPreguntas(categoriaId, dificultadId, cantidad);
+                    var preguntas = await _triviaComponente.ObtenerPreguntas(categoriaId, dificultadId, cantidad);
 
                     if (preguntas == null || preguntas.Count == 0)
                     {

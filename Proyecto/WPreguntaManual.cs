@@ -18,14 +18,14 @@ namespace Proyecto
 
         public WMain iVentanaMain;
         private bool iAceptado;
-        private readonly PreguntaComponente _preguntaComponente;
+        private readonly TriviaComponente _triviaComponente;
 
         public WPreguntaManual()
         {
             try
             {
                 InitializeComponent();
-                _preguntaComponente = new PreguntaComponente();
+                _triviaComponente = new TriviaComponente();
                 CargarDificultadesYCategorias();
                 iAceptado = false;
             }
@@ -41,8 +41,8 @@ namespace Proyecto
         {
             try
             {
-                var dificultades = await _preguntaComponente.ObtenerDificultades();
-                var categorias = await _preguntaComponente.ObtenerCategorias();
+                var dificultades = await _triviaComponente.ObtenerDificultades();
+                var categorias = await _triviaComponente.ObtenerCategorias();
 
                 TDificultad.DataSource = dificultades;
                 TDificultad.ValueMember = "IdDificultad";
@@ -76,14 +76,14 @@ namespace Proyecto
                         Dificultad = (DificultadDTO)TDificultad.SelectedItem,
                         Respuestas = new List<RespuestaDTO>
                 {
-                    new RespuestaDTO { SRespuesta = TRespuestaCorrecta.Text, Correcta = true },
-                    new RespuestaDTO { SRespuesta = TRespIncorrecta1.Text, Correcta = false },
-                    new RespuestaDTO { SRespuesta = TRespIncorrecta2.Text, Correcta = false },
-                    new RespuestaDTO { SRespuesta = TRespIncorrecta3.Text, Correcta = false },
+                    new RespuestaDTO { TextoRespuesta = TRespuestaCorrecta.Text, Correcta = true },
+                    new RespuestaDTO { TextoRespuesta = TRespIncorrecta1.Text, Correcta = false },
+                    new RespuestaDTO { TextoRespuesta = TRespIncorrecta2.Text, Correcta = false },
+                    new RespuestaDTO { TextoRespuesta = TRespIncorrecta3.Text, Correcta = false },
                 }
                     };
 
-                    var resultado = await _preguntaComponente.GuardarPreguntaManual(nuevaPregunta);
+                    var resultado = await _triviaComponente.GuardarPreguntaManual(nuevaPregunta);
 
                     if (resultado)
                     {

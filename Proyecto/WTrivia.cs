@@ -62,7 +62,7 @@ namespace Proyecto
                 for (int i = 0; i < iLLabels.Count; i++)
                 {
                     iLLabels[i].BackColor = Color.Black;
-                    iLLabels[i].Text = iLResp[i].SRespuesta;
+                    iLLabels[i].Text = iLResp[i].TextoRespuesta;
                 }
             }
             catch (Exception ex)

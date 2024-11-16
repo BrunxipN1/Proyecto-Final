@@ -8,23 +8,23 @@ using Proyecto.Servicios;
 
 namespace Proyecto.Componentes
 {
-    internal class PreguntaComponente
+    internal class TriviaComponente
     {
-        private readonly PreguntaServicio _preguntaServicio;
+        private readonly TriviaServicio _triviaServicio;
 
-        public PreguntaComponente()
+        public TriviaComponente()
         {
-            _preguntaServicio = new PreguntaServicio();
+            _triviaServicio = new TriviaServicio();
         }
 
         public async Task<List<CategoriaDTO>> ObtenerCategorias()
         {
-            return await _preguntaServicio.ObtenerCategorias();
+            return await _triviaServicio.ObtenerCategorias();
         }
 
         public async Task<List<DificultadDTO>> ObtenerDificultades()
         {
-            return await _preguntaServicio.ObtenerDificultades();
+            return await _triviaServicio.ObtenerDificultades();
         }
 
         public async Task<List<PreguntaDTO>> ObtenerPreguntas(int categoriaId, int dificultadId, int cantidad)
@@ -36,12 +36,12 @@ namespace Proyecto.Componentes
                 Cantidad = cantidad
             };
 
-            return await _preguntaServicio.ObtenerPreguntas(requestDTO);
+            return await _triviaServicio.ObtenerPreguntas(requestDTO);
         }
 
         public async Task<bool> GuardarPreguntaManual(PreguntaDTO pregunta)
         {
-            return await _preguntaServicio.GuardarPreguntaManual(pregunta);
+            return await _triviaServicio.GuardarPreguntaManual(pregunta);
         }
 
         public async Task<bool> AgregarPreguntasDesdeWeb(CategoriaDTO categoria, DificultadDTO dificultad, int cantidad)
@@ -53,7 +53,7 @@ namespace Proyecto.Componentes
                 Cantidad = cantidad
             };
 
-            return await _preguntaServicio.AgregarPreguntasDesdeWeb(request);
+            return await _triviaServicio.AgregarPreguntasDesdeWeb(request);
         }
     }
 }

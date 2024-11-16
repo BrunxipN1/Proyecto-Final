@@ -9,11 +9,11 @@ using System.Text.Json;
 
 namespace Proyecto.Servicios
 {
-    internal class PreguntaServicio
+    internal class TriviaServicio
     {
         private readonly HttpClient _httpClient;
 
-        public PreguntaServicio()
+        public TriviaServicio()
         {
             _httpClient = new HttpClient
             {
@@ -23,7 +23,7 @@ namespace Proyecto.Servicios
 
         public async Task<List<CategoriaDTO>> ObtenerCategorias()
         {
-            var response = await _httpClient.GetAsync("Categoria/obtener");
+            var response = await _httpClient.GetAsync("Trivia/obtenerCategorias");
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync();
@@ -32,7 +32,7 @@ namespace Proyecto.Servicios
 
         public async Task<List<DificultadDTO>> ObtenerDificultades()
         {
-            var response = await _httpClient.GetAsync("Dificultad/obtener");
+            var response = await _httpClient.GetAsync("Trivia/obtenerDificultades");
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync();
@@ -46,7 +46,7 @@ namespace Proyecto.Servicios
                 var json = JsonSerializer.Serialize(requestDTO);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync("Pregunta/obtener", content);
+                var response = await _httpClient.PostAsync("Trivia/obtenerPreguntas", content);
                 response.EnsureSuccessStatusCode();
 
                 var responseBody = await response.Content.ReadAsStringAsync();

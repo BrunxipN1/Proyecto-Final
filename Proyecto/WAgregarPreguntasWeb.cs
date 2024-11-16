@@ -18,14 +18,14 @@ namespace Proyecto
 
         public WMain iVentanaMain;
         private bool iAceptado;
-        private readonly PreguntaComponente _preguntaComponente;
+        private readonly TriviaComponente _triviaComponente;
 
         public WAgregarPreguntasWeb()
         {
             try
             {
                 InitializeComponent();
-                _preguntaComponente = new PreguntaComponente();
+                _triviaComponente = new TriviaComponente();
                 CargarDificultadesYCategorias();
                 iAceptado = false;
             }
@@ -42,8 +42,8 @@ namespace Proyecto
             try
             {
                 // Obtener dificultades y categorías desde el componente
-                var dificultades = await _preguntaComponente.ObtenerDificultades();
-                var categorias = await _preguntaComponente.ObtenerCategorias();
+                var dificultades = await _triviaComponente.ObtenerDificultades();
+                var categorias = await _triviaComponente.ObtenerCategorias();
 
                 TDificultad.DataSource = dificultades;
                 TDificultad.ValueMember = "IdDificultad";
@@ -69,7 +69,7 @@ namespace Proyecto
                     var categoria = (CategoriaDTO)TCategoria.SelectedItem;
                     var dificultad = (DificultadDTO)TDificultad.SelectedItem;
 
-                    var resultado = await _preguntaComponente.AgregarPreguntasDesdeWeb(categoria, dificultad, (int)TCantidad.Value);
+                    var resultado = await _triviaComponente.AgregarPreguntasDesdeWeb(categoria, dificultad, (int)TCantidad.Value);
 
                     if (resultado)
                     {
