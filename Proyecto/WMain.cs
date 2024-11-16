@@ -54,26 +54,35 @@ namespace Proyecto
             vAddPregWeb.iVentanaMain = this;
         }
 
+
+
+
+        // DEBERIA REALIZARLO LA SEEEEED
         private void AgregarCategoria_Click(object sender, EventArgs e)
         {
-            try { 
-                ControladorProyecto.InicializarDificultades();
-                ControladorProyecto.InicializarCategorias();
-            }
-            catch (Exception ex)
-            {
-                Log.Error("WMain - AgregarCategoria_Click - 1: {Message}", ex.Message);
-                MessageBox.Show("Ha ocurrido un error al importar categorías.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //try
+            //{
+            //    ControladorProyecto.InicializarDificultades();
+            //    ControladorProyecto.InicializarCategorias();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Error("WMain - AgregarCategoria_Click - 1: {Message}", ex.Message);
+            //    MessageBox.Show("Ha ocurrido un error al importar categorías.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
+
+
 
         private void BJugar_Click(object sender, EventArgs e)
         {
             this.Visible = false;
-            WConfigurarTrivia vConfigurarTrivia = new WConfigurarTrivia();
-            vConfigurarTrivia.iUsuario = this.borrarUsuario;
+            var vConfigurarTrivia = new WConfigurarTrivia
+            {
+                iUsuario = this.iUsuario,
+                iVentanaMain = this
+            };
             vConfigurarTrivia.Show();
-            vConfigurarTrivia.iVentanaMain = this;
         }
 
         private void BCerrarSesion_Click(object sender, EventArgs e)

@@ -1,3 +1,5 @@
+using Proyecto.Componentes;
+using Proyecto.Servicios.DTO;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -13,23 +15,18 @@ namespace Proyecto
 {
     public partial class WPreguntaManual : Form
     {
-        
+
         public WMain iVentanaMain;
-        private Boolean iAceptado;
+        private bool iAceptado;
+        private readonly PreguntaComponente _preguntaComponente;
 
         public WPreguntaManual()
         {
-            try {
+            try
+            {
                 InitializeComponent();
-                using (TriviaContext db = new TriviaContext())
-                {
-                    TDificultad.DataSource = db.Dificultades.ToList();
-                    TDificultad.ValueMember = "IdDificultad";
-                    TDificultad.DisplayMember = "NombreDificultad";
-                    TCategoria.DataSource = db.Categorias.ToList();
-                    TCategoria.ValueMember = "IdCategoria";
-                    TCategoria.DisplayMember = "NombreCategoria";
-                }
+                _preguntaComponente = new PreguntaComponente();
+                CargarDificultadesYCategorias();
                 iAceptado = false;
             }
             catch (Exception ex)
@@ -40,37 +37,74 @@ namespace Proyecto
             }
         }
 
-        private void Aceptar_Click(object sender, EventArgs e)
+        private async void CargarDificultadesYCategorias()
         {
-            try {
-                if (!string.IsNullOrWhiteSpace(TPregunta.Text) & !string.IsNullOrWhiteSpace(TRespuestaCorrecta.Text) & !string.IsNullOrWhiteSpace(TRespIncorrecta1.Text) & !string.IsNullOrWhiteSpace(TRespIncorrecta2.Text) & !string.IsNullOrWhiteSpace(TRespIncorrecta3.Text))
+            try
+            {
+                var dificultades = await _preguntaComponente.ObtenerDificultades();
+                var categorias = await _preguntaComponente.ObtenerCategorias();
+
+                TDificultad.DataSource = dificultades;
+                TDificultad.ValueMember = "IdDificultad";
+                TDificultad.DisplayMember = "NombreDificultad";
+
+                TCategoria.DataSource = categorias;
+                TCategoria.ValueMember = "IdCategoria";
+                TCategoria.DisplayMember = "NombreCategoria";
+            }
+            catch (Exception ex)
+            {
+                Log.Error("WPreguntaManual - CargarDificultadesYCategorias - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error al cargar las dificultades y categorías.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void Aceptar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(TPregunta.Text) &&
+                    !string.IsNullOrWhiteSpace(TRespuestaCorrecta.Text) &&
+                    !string.IsNullOrWhiteSpace(TRespIncorrecta1.Text) &&
+                    !string.IsNullOrWhiteSpace(TRespIncorrecta2.Text) &&
+                    !string.IsNullOrWhiteSpace(TRespIncorrecta3.Text))
                 {
-                    Categoria iCategoria = TCategoria.SelectedItem as Categoria;
-                    Dificultad iDificultad = TDificultad.SelectedItem as Dificultad;
-                
-                    List<Respuesta> iRespuestas = new List<Respuesta>
+                    var nuevaPregunta = new PreguntaDTO
                     {
-                        new Respuesta(TRespuestaCorrecta.Text, true),
-                        new Respuesta(TRespIncorrecta1.Text, false),
-                        new Respuesta(TRespIncorrecta2.Text, false),
-                        new Respuesta(TRespIncorrecta3.Text, false),
+                        LaPregunta = TPregunta.Text,
+                        Categoria = (CategoriaDTO)TCategoria.SelectedItem,
+                        Dificultad = (DificultadDTO)TDificultad.SelectedItem,
+                        Respuestas = new List<RespuestaDTO>
+                {
+                    new RespuestaDTO { SRespuesta = TRespuestaCorrecta.Text, Correcta = true },
+                    new RespuestaDTO { SRespuesta = TRespIncorrecta1.Text, Correcta = false },
+                    new RespuestaDTO { SRespuesta = TRespIncorrecta2.Text, Correcta = false },
+                    new RespuestaDTO { SRespuesta = TRespIncorrecta3.Text, Correcta = false },
+                }
                     };
-                    Pregunta iPregunta = new Pregunta(TPregunta.Text, iCategoria, iDificultad, iRespuestas);
-                    List<Pregunta> lPregunta = new List<Pregunta> { iPregunta };
-                    ControladorProyecto.AgregarPreguntas(lPregunta);
-                    MessageBox.Show("The question has been added!", "Success!", MessageBoxButtons.OK);
-                    iAceptado = true;
-                    this.Close();
+
+                    var resultado = await _preguntaComponente.GuardarPreguntaManual(nuevaPregunta);
+
+                    if (resultado)
+                    {
+                        MessageBox.Show("La pregunta ha sido agregada exitosamente.", "Éxito", MessageBoxButtons.OK);
+                        iAceptado = true;
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo agregar la pregunta. Intente nuevamente más tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("One or more fields are empty", "Warning", MessageBoxButtons.OK);
+                    MessageBox.Show("Uno o más campos están vacíos.", "Advertencia", MessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)
             {
                 Log.Error("WPreguntaManual - Aceptar_Click - 1: {Message}", ex.Message);
-                MessageBox.Show("Ha ocurrido un error al agregar la pregunta. Vuelva a intentar más tarde", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ha ocurrido un error al agregar la pregunta. Intente nuevamente más tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

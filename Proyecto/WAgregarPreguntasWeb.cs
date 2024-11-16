@@ -1,3 +1,5 @@
+using Proyecto.Componentes;
+using Proyecto.Servicios.DTO;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -13,24 +15,18 @@ namespace Proyecto
 {
     public partial class WAgregarPreguntasWeb : Form
     {
-        
+
         public WMain iVentanaMain;
-        private Boolean iAceptado;
+        private bool iAceptado;
+        private readonly PreguntaComponente _preguntaComponente;
 
         public WAgregarPreguntasWeb()
         {
             try
             {
                 InitializeComponent();
-                using (TriviaContext db = new TriviaContext())
-                {
-                    TDificultad.DataSource = db.Dificultades.ToList();
-                    TDificultad.ValueMember = "IdDificultad";
-                    TDificultad.DisplayMember = "NombreDificultad";
-                    TCategoria.DataSource = db.Categorias.ToList();
-                    TCategoria.ValueMember = "IdCategoria";
-                    TCategoria.DisplayMember = "NombreCategoria";
-                }
+                _preguntaComponente = new PreguntaComponente();
+                CargarDificultadesYCategorias();
                 iAceptado = false;
             }
             catch (Exception ex)
@@ -41,21 +37,54 @@ namespace Proyecto
             }
         }
 
-        private void Aceptar_Click(object sender, EventArgs e)
+        private async void CargarDificultadesYCategorias()
         {
-            try { 
-                if (TCantidad.Value != 0)
+            try
+            {
+                // Obtener dificultades y categorías desde el componente
+                var dificultades = await _preguntaComponente.ObtenerDificultades();
+                var categorias = await _preguntaComponente.ObtenerCategorias();
+
+                TDificultad.DataSource = dificultades;
+                TDificultad.ValueMember = "IdDificultad";
+                TDificultad.DisplayMember = "NombreDificultad";
+
+                TCategoria.DataSource = categorias;
+                TCategoria.ValueMember = "IdCategoria";
+                TCategoria.DisplayMember = "NombreCategoria";
+            }
+            catch (Exception ex)
+            {
+                Log.Error("WAgregarPreguntasWeb - CargarDificultadesYCategorias - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error al cargar las dificultades y categorías.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void Aceptar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (TCantidad.Value > 0)
                 {
-                    Categoria iCategoria = TCategoria.SelectedItem as Categoria;
-                    Dificultad iDificultad = TDificultad.SelectedItem as Dificultad;
-                    ControladorProyecto.AgregarPorUrl(iCategoria, iDificultad, Convert.ToInt32(TCantidad.Value));
-                    MessageBox.Show("All the questions have been added!", "Success!", MessageBoxButtons.OK);
-                    iAceptado = true;
-                    this.Close();
+                    var categoria = (CategoriaDTO)TCategoria.SelectedItem;
+                    var dificultad = (DificultadDTO)TDificultad.SelectedItem;
+
+                    var resultado = await _preguntaComponente.AgregarPreguntasDesdeWeb(categoria, dificultad, (int)TCantidad.Value);
+
+                    if (resultado)
+                    {
+                        MessageBox.Show("Todas las preguntas han sido agregadas exitosamente.", "Éxito", MessageBoxButtons.OK);
+                        iAceptado = true;
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudieron agregar las preguntas. Intente nuevamente más tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("The amount field must be greater than 0", "Warning", MessageBoxButtons.OK);
+                    MessageBox.Show("La cantidad debe ser mayor a 0.", "Advertencia", MessageBoxButtons.OK);
                 }
             }
             catch (Exception ex)
