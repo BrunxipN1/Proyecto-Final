@@ -17,11 +17,13 @@ namespace Proyecto
     internal static class ControladorProyecto
     {
         private static TriviaContext db;
-
+        private static HttpClient httpClient;
 
         static ControladorProyecto()
         {
             db = new TriviaContext();
+            httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("http://localhost:43660/");
         }
         public static void AgregarUsuario (Usuario pUser)
         {
@@ -55,6 +57,10 @@ namespace Proyecto
         public static Usuario ObtenerUsuario(string pNombreUsuario, string pPassword)
         {
             try {
+                httpClient.GetAsync("WeatherForecast").ContinueWith( task => {
+                    Log.Error("ControladorProyecto - ObtenerUsuario - 1: {Message} ", JsonConvert.SerializeObject(task));
+                });
+                
                 Usuario mUsuario = db.Usuarios.FirstOrDefault(usr => (usr.NombreUsuario == pNombreUsuario) & (usr.Password == pPassword));
                 return mUsuario;
             }

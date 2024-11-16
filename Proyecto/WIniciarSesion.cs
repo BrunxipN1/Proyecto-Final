@@ -18,7 +18,7 @@ namespace Proyecto
             InitializeComponent();
         }
 
-        private void BLogin_Click(object sender, EventArgs e)
+        private void BLogin_ClickAsync(object sender, EventArgs e)
         {
             try {
                 if (!string.IsNullOrEmpty(TUsername.Text) & !string.IsNullOrWhiteSpace(TPass.Text))

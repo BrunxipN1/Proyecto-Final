@@ -102,7 +102,7 @@
             this.BLogin.TabIndex = 6;
             this.BLogin.Text = "Login";
             this.BLogin.UseVisualStyleBackColor = true;
-            this.BLogin.Click += new System.EventHandler(this.BLogin_Click);
+            this.BLogin.Click += new System.EventHandler(this.BLogin_ClickAsync);
             // 
             // LCreate
             // 
