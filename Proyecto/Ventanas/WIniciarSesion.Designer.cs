@@ -73,6 +73,8 @@
             this.TPass.Name = "TPass";
             this.TPass.Size = new System.Drawing.Size(217, 23);
             this.TPass.TabIndex = 3;
+            this.TPass.UseSystemPasswordChar = true;
+            this.TPass.TextChanged += new System.EventHandler(this.TPass_TextChanged);
             // 
             // label3
             // 

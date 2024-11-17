@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Proyecto.Servicios.DTO;
 using System;
+using System.Configuration;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -17,7 +18,7 @@ namespace Proyecto.Servicios
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:43660/")
+                BaseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"])
             };
         }
 

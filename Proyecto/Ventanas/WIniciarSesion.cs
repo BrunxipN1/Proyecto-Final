@@ -26,6 +26,7 @@ namespace Proyecto
                 if (!string.IsNullOrEmpty(TUsername.Text) && !string.IsNullOrWhiteSpace(TPass.Text))
                 {
                     var usuarioComponente = new UsuarioComponente();
+                    this.Enabled = false;
                     var usuarioDTO = await usuarioComponente.AutenticarUsuario(TUsername.Text, TPass.Text);
 
                     if (usuarioDTO != null)
@@ -44,6 +45,7 @@ namespace Proyecto
                 {
                     MessageBox.Show("Uno o más campos están vacíos", "Advertencia", MessageBoxButtons.OK);
                 }
+                this.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -63,6 +65,11 @@ namespace Proyecto
         private void BQuit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void TPass_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

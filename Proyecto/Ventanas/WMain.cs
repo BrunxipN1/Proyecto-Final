@@ -15,7 +15,6 @@ namespace Proyecto
     public partial class WMain : Form
     {
         public UsuarioDTO iUsuario;
-        public Usuario borrarUsuario;
         public WIniciarSesion iVIniciarSesion;
         private bool iSalir;
 

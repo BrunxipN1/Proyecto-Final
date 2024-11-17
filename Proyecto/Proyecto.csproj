@@ -95,6 +95,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
@@ -176,13 +177,9 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Categoria.cs" />
     <Compile Include="Componentes\TriviaComponente.cs" />
     <Compile Include="Componentes\PuntajeComponente.cs" />
     <Compile Include="Componentes\UsuarioComponente.cs" />
-    <Compile Include="ControladorProyecto.cs" />
-    <Compile Include="Dificultad.cs" />
-    <Compile Include="Puntuaje.cs" />
     <Compile Include="Servicios\DTO\CalculoPuntajeDTO.cs" />
     <Compile Include="Servicios\DTO\CategoriaDTO.cs" />
     <Compile Include="Servicios\DTO\DificultadDTO.cs" />
@@ -195,90 +192,76 @@
     <Compile Include="Servicios\TriviaServicio.cs" />
     <Compile Include="Servicios\PuntajeServicio.cs" />
     <Compile Include="Servicios\UsuarioServicio.cs" />
-    <Compile Include="Usuario.cs" />
     <Compile Include="Utils\Enums.cs" />
-    <Compile Include="WConfigurarTrivia.cs">
+    <Compile Include="Ventanas\WConfigurarTrivia.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WConfigurarTrivia.Designer.cs">
+    <Compile Include="Ventanas\WConfigurarTrivia.Designer.cs">
       <DependentUpon>WConfigurarTrivia.cs</DependentUpon>
     </Compile>
-    <Compile Include="WInicial.cs">
+    <Compile Include="Ventanas\WPuntajes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WInicial.Designer.cs">
-      <DependentUpon>WInicial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WPuntajes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WPuntajes.Designer.cs">
+    <Compile Include="Ventanas\WPuntajes.Designer.cs">
       <DependentUpon>WPuntajes.cs</DependentUpon>
     </Compile>
-    <Compile Include="WRegistrarse.cs">
+    <Compile Include="Ventanas\WRegistrarse.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WRegistrarse.Designer.cs">
+    <Compile Include="Ventanas\WRegistrarse.Designer.cs">
       <DependentUpon>WRegistrarse.cs</DependentUpon>
     </Compile>
-    <Compile Include="WIniciarSesion.cs">
+    <Compile Include="Ventanas\WIniciarSesion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WIniciarSesion.Designer.cs">
+    <Compile Include="Ventanas\WIniciarSesion.Designer.cs">
       <DependentUpon>WIniciarSesion.cs</DependentUpon>
     </Compile>
-    <Compile Include="WMain.cs">
+    <Compile Include="Ventanas\WMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WMain.Designer.cs">
+    <Compile Include="Ventanas\WMain.Designer.cs">
       <DependentUpon>WMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="PaginaWeb.cs" />
-    <Compile Include="Pregunta.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Respuesta.cs" />
-    <Compile Include="TriviaContext.cs" />
-    <Compile Include="WAgregarPreguntasWeb.cs">
+    <Compile Include="Ventanas\WAgregarPreguntasWeb.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WAgregarPreguntasWeb.Designer.cs">
+    <Compile Include="Ventanas\WAgregarPreguntasWeb.Designer.cs">
       <DependentUpon>WAgregarPreguntasWeb.cs</DependentUpon>
     </Compile>
-    <Compile Include="WPreguntaManual.cs">
+    <Compile Include="Ventanas\WPreguntaManual.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WPreguntaManual.Designer.cs">
+    <Compile Include="Ventanas\WPreguntaManual.Designer.cs">
       <DependentUpon>WPreguntaManual.cs</DependentUpon>
     </Compile>
-    <Compile Include="WTrivia.cs">
+    <Compile Include="Ventanas\WTrivia.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WTrivia.Designer.cs">
+    <Compile Include="Ventanas\WTrivia.Designer.cs">
       <DependentUpon>WTrivia.cs</DependentUpon>
     </Compile>
-    <Compile Include="WTriviaFinalizada.cs">
+    <Compile Include="Ventanas\WTriviaFinalizada.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WTriviaFinalizada.Designer.cs">
+    <Compile Include="Ventanas\WTriviaFinalizada.Designer.cs">
       <DependentUpon>WTriviaFinalizada.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="WConfigurarTrivia.resx">
+    <EmbeddedResource Include="Ventanas\WConfigurarTrivia.resx">
       <DependentUpon>WConfigurarTrivia.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WInicial.resx">
-      <DependentUpon>WInicial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WPuntajes.resx">
+    <EmbeddedResource Include="Ventanas\WPuntajes.resx">
       <DependentUpon>WPuntajes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WRegistrarse.resx">
+    <EmbeddedResource Include="Ventanas\WRegistrarse.resx">
       <DependentUpon>WRegistrarse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WIniciarSesion.resx">
+    <EmbeddedResource Include="Ventanas\WIniciarSesion.resx">
       <DependentUpon>WIniciarSesion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WMain.resx">
+    <EmbeddedResource Include="Ventanas\WMain.resx">
       <DependentUpon>WMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -291,18 +274,19 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="WAgregarPreguntasWeb.resx">
+    <EmbeddedResource Include="Ventanas\WAgregarPreguntasWeb.resx">
       <DependentUpon>WAgregarPreguntasWeb.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WPreguntaManual.resx">
+    <EmbeddedResource Include="Ventanas\WPreguntaManual.resx">
       <DependentUpon>WPreguntaManual.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WTrivia.resx">
+    <EmbeddedResource Include="Ventanas\WTrivia.resx">
       <DependentUpon>WTrivia.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WTriviaFinalizada.resx">
+    <EmbeddedResource Include="Ventanas\WTriviaFinalizada.resx">
       <DependentUpon>WTriviaFinalizada.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="settings.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -331,9 +315,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Ventanas\WLogin.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

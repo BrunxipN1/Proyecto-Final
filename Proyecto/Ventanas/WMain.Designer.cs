@@ -35,7 +35,6 @@ namespace Proyecto
             this.BJugar = new System.Windows.Forms.Button();
             this.BCerrarSesion = new System.Windows.Forms.Button();
             this.BQuit = new System.Windows.Forms.Button();
-            this.AgregarCategoria = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // VerPuntuaciones
@@ -115,23 +114,11 @@ namespace Proyecto
             this.BQuit.UseVisualStyleBackColor = true;
             this.BQuit.Click += new System.EventHandler(this.BQuit_Click);
             // 
-            // AgregarCategoria
-            // 
-            this.AgregarCategoria.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AgregarCategoria.Location = new System.Drawing.Point(76, 134);
-            this.AgregarCategoria.Name = "AgregarCategoria";
-            this.AgregarCategoria.Size = new System.Drawing.Size(238, 34);
-            this.AgregarCategoria.TabIndex = 11;
-            this.AgregarCategoria.Text = "Add Categories (Admin)";
-            this.AgregarCategoria.UseVisualStyleBackColor = true;
-            this.AgregarCategoria.Click += new System.EventHandler(this.AgregarCategoria_Click);
-            // 
             // WMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(389, 349);
-            this.Controls.Add(this.AgregarCategoria);
             this.Controls.Add(this.BQuit);
             this.Controls.Add(this.BCerrarSesion);
             this.Controls.Add(this.BJugar);
@@ -156,6 +143,5 @@ namespace Proyecto
         private System.Windows.Forms.Button BJugar;
         private System.Windows.Forms.Button BCerrarSesion;
         private System.Windows.Forms.Button BQuit;
-        public System.Windows.Forms.Button AgregarCategoria;
     }
 }
