@@ -43,10 +43,9 @@ namespace Proyecto.Servicios
         {
             try
             {
-                var json = JsonConvert.SerializeObject(requestDTO);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PostAsync("Trivia/obtenerPreguntas", content);
+                var urlString = $"Trivia/obtenerPreguntas?cantidad={requestDTO.Cantidad}&categoriaId={requestDTO.CategoriaId}&dificultadId={requestDTO.DificultadId}";
+                var response = await _httpClient.GetAsync(urlString);
+                Console.WriteLine("ObtenerPreguntas response: ", response);
                 response.EnsureSuccessStatusCode();
 
                 var responseBody = await response.Content.ReadAsStringAsync();
