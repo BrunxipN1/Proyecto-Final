@@ -64,7 +64,7 @@ namespace Proyecto.Servicios
             var json = JsonConvert.SerializeObject(pregunta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("Trivia/guardarPreguntaManual", content);
+            var response = await _httpClient.PostAsync("Trivia/agregarPreguntaManual", content);
             return response.IsSuccessStatusCode;
         }
 

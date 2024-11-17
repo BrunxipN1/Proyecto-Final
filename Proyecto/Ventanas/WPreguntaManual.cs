@@ -75,12 +75,12 @@ namespace Proyecto
                         Categoria = (CategoriaDTO)TCategoria.SelectedItem,
                         Dificultad = (DificultadDTO)TDificultad.SelectedItem,
                         Respuestas = new List<RespuestaDTO>
-                {
-                    new RespuestaDTO { TextoRespuesta = TRespuestaCorrecta.Text, Correcta = true },
-                    new RespuestaDTO { TextoRespuesta = TRespIncorrecta1.Text, Correcta = false },
-                    new RespuestaDTO { TextoRespuesta = TRespIncorrecta2.Text, Correcta = false },
-                    new RespuestaDTO { TextoRespuesta = TRespIncorrecta3.Text, Correcta = false },
-                }
+                            {
+                                new RespuestaDTO { TextoRespuesta = TRespuestaCorrecta.Text, Correcta = true },
+                                new RespuestaDTO { TextoRespuesta = TRespIncorrecta1.Text, Correcta = false },
+                                new RespuestaDTO { TextoRespuesta = TRespIncorrecta2.Text, Correcta = false },
+                                new RespuestaDTO { TextoRespuesta = TRespIncorrecta3.Text, Correcta = false },
+                            }
                     };
 
                     var resultado = await _triviaComponente.GuardarPreguntaManual(nuevaPregunta);
