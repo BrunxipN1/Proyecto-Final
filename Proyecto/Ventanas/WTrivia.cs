@@ -101,6 +101,7 @@ namespace Proyecto
                     }
                 }
 
+                LResultado.Enabled = true;
                 LResultado.Text = resultado.Respuestas.Any(r => r.Correcta && r.Seleccionada) ? "¡Correct!" : "Incorrect";
                 LResultado.ForeColor = resultado.Respuestas.Any(r => r.Correcta && r.Seleccionada) ? Color.LightGreen : Color.Tomato;
 
