@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Proyecto.Servicios.DTO
 {
-    internal class PuntajeRequestDTO
+    internal class CalculoPuntajeDTO
     {
         public UsuarioDTO Usuario { get; set; }
-        public int CantCorrectas { get; set; }
-        public int CantPreguntas { get; set; }
+        public List<PreguntaDTO> PreguntasEvaluadas { get; set; }
         public int Tiempo { get; set; }
-        public DificultadDTO Dificultad { get; set; }
-
     }
 }

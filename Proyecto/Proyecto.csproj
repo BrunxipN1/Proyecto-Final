@@ -183,13 +183,13 @@
     <Compile Include="ControladorProyecto.cs" />
     <Compile Include="Dificultad.cs" />
     <Compile Include="Puntuaje.cs" />
+    <Compile Include="Servicios\DTO\CalculoPuntajeDTO.cs" />
     <Compile Include="Servicios\DTO\CategoriaDTO.cs" />
     <Compile Include="Servicios\DTO\DificultadDTO.cs" />
     <Compile Include="Servicios\DTO\PreguntaDTO.cs" />
     <Compile Include="Servicios\DTO\PreguntaRequestDTO.cs" />
     <Compile Include="Servicios\DTO\PreguntaWebRequestDTO.cs" />
     <Compile Include="Servicios\DTO\PuntajeDTO.cs" />
-    <Compile Include="Servicios\DTO\PuntajeRequestDTO.cs" />
     <Compile Include="Servicios\DTO\RespuestaDTO.cs" />
     <Compile Include="Servicios\DTO\UsuarioDTO.cs" />
     <Compile Include="Servicios\TriviaServicio.cs" />

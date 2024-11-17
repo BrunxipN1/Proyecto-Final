@@ -11,6 +11,7 @@ namespace Proyecto.Servicios.DTO
         public int IdRespuesta { get; set; }
         public string TextoRespuesta { get; set; }
         public bool Correcta { get; set; }
+        public bool Seleccionada { get; set; }
 
     }
 }

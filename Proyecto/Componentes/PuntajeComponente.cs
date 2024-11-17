@@ -17,9 +17,16 @@ namespace Proyecto.Componentes
             _puntajeServicio = new PuntajeServicio();
         }
 
-        public async Task<PuntajeDTO> CalcularPuntaje(PuntajeRequestDTO puntajeRequest)
+        public async Task<PuntajeDTO> CalcularPuntaje(UsuarioDTO usuario, List<PreguntaDTO> preguntasEvaluadas, int tiempo)
         {
-            return await _puntajeServicio.CalcularPuntaje(puntajeRequest);
+            var calculoPuntajeDTO = new CalculoPuntajeDTO
+            {
+                Usuario = usuario,
+                PreguntasEvaluadas = preguntasEvaluadas,
+                Tiempo = tiempo
+            };
+
+            return await _puntajeServicio.CalcularPuntaje(calculoPuntajeDTO);
         }
 
         public async Task<List<PuntajeDTO>> ObtenerPuntajes()

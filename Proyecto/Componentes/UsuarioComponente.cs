@@ -28,9 +28,16 @@ namespace Proyecto.Componentes
 
             return await _usuarioServicio.AgregarUsuario(usuarioDTO);
         }
+
         public async Task<UsuarioDTO> AutenticarUsuario(string nombreUsuario, string password)
         {
-            return await _usuarioServicio.AutenticarUsuario(nombreUsuario, password);
+            var usuarioDTO = new UsuarioDTO
+            {
+                NombreUsuario = nombreUsuario,
+                Password = password
+            };
+
+            return await _usuarioServicio.AutenticarUsuario(usuarioDTO);
         }
     }
 }

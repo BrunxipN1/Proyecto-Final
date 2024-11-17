@@ -1,4 +1,5 @@
-﻿using Proyecto.Servicios.DTO;
+﻿using Proyecto.Componentes;
+using Proyecto.Servicios.DTO;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace Proyecto
         private List<RespuestaDTO> iLResp;
         private bool iPararContador;
         private bool iFinalizado;
+        private readonly TriviaComponente _triviaComponente;
+        private readonly PuntajeComponente _puntajeComponente;
 
         public WTrivia()
         {   
@@ -36,6 +39,8 @@ namespace Proyecto
                     LRespuesta3,
                     LRespuesta4
                 };
+                _triviaComponente = new TriviaComponente();
+                _puntajeComponente = new PuntajeComponente();
                 iFinalizado = false;
                 iPararContador = false;
                 iIndex = 0;
@@ -72,41 +77,43 @@ namespace Proyecto
             }
         }
 
-        private void VerificarRespuesta(int pI)
+        private async void VerificarRespuesta(int respuestaIndex)
         {
-            iPararContador = true;
-
-            if (iLResp[pI].Correcta)
+            try
             {
-                iLLabels[pI].BackColor = Color.Green;
-                LResultado.Text = "¡Correcto!";
-                LResultado.ForeColor = Color.LightGreen;
-                iContRespCorrectas++;
-            }
-            else
-            {
-                LResultado.Text = "Incorrecto";
-                LResultado.ForeColor = Color.Tomato;
-                iLLabels[pI].BackColor = Color.Red;
+                var preguntaActual = iLPreguntas[iIndex];
+                var respuestaSeleccionada = iLResp[respuestaIndex];
 
-                // Mostrar la respuesta correcta
-                for (int i = 0; i < iLResp.Count; i++)
+                preguntaActual = _triviaComponente.MarcarRespuestaSeleccionada(preguntaActual, respuestaSeleccionada.IdRespuesta);
+
+                var resultado = await _triviaComponente.VerificarPregunta(preguntaActual);
+
+                foreach (var respuesta in resultado.Respuestas)
                 {
-                    if (iLResp[i].Correcta)
+                    var labelIndex = iLResp.FindIndex(r => r.IdRespuesta == respuesta.IdRespuesta);
+                    if (labelIndex >= 0)
                     {
-                        iLLabels[i].BackColor = Color.Green;
-                        break;
+                        iLLabels[labelIndex].BackColor = respuesta.Correcta
+                            ? Color.Green
+                            : respuesta.Seleccionada
+                                ? Color.Red
+                                : Color.Black;
                     }
                 }
+
+                LResultado.Text = resultado.Respuestas.Any(r => r.Correcta && r.Seleccionada) ? "¡Correct!" : "Incorrect";
+                LResultado.ForeColor = resultado.Respuestas.Any(r => r.Correcta && r.Seleccionada) ? Color.LightGreen : Color.Tomato;
+
+                BSiguiente.Enabled = true;
+                foreach (var label in iLLabels)
+                {
+                    label.Enabled = false;
+                }
             }
-
-            LResultado.Enabled = true;
-            BSiguiente.Enabled = true;
-
-            // Deshabilitar los labels
-            foreach (var label in iLLabels)
+            catch (Exception ex)
             {
-                label.Enabled = false;
+                Log.Error("WTrivia - VerificarRespuesta - 1: {Message}", ex.Message);
+                MessageBox.Show("Ha ocurrido un error al verificar la respuesta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -116,7 +123,7 @@ namespace Proyecto
         private void LRespuesta4_Click(object sender, EventArgs e) => VerificarRespuesta(3);
 
 
-        private void BSiguiente_Click(object sender, EventArgs e)
+        private async void BSiguiente_Click(object sender, EventArgs e)
         {
             try
             {
@@ -137,15 +144,16 @@ namespace Proyecto
                 {
                     iFinalizado = true;
 
-                    // Abrir ventana de resultados
+                    var preguntasEvaluadas = _triviaComponente.ObtenerPreguntasEvaluadas();
+                    var puntaje = await _puntajeComponente.CalcularPuntaje(iUsuario, preguntasEvaluadas, iSegundos);
                     var vTriviaFinalizada = new WTriviaFinalizada
                     {
-                        iUsuario = iUsuario,
                         iVentanaMain = iVentanaMain,
-                        iSegundos = iSegundos,
-                        iCantCorrectas = iContRespCorrectas,
-                        iCantPreguntas = iLPreguntas.Count,
-                        iDificultad = iLPreguntas.First().Dificultad
+                        iSegundos = puntaje.Tiempo,
+                        iCantPreguntas = puntaje.CantidadPreguntas,
+                        iCantCorrectas = puntaje.CantidadCorrectas,
+                        iPuntaje = puntaje.ValorPuntaje.ToString("0.000"),
+                        iDificultad = preguntasEvaluadas.First().Dificultad.NombreDificultad
                     };
 
                     vTriviaFinalizada.ConstruirVentana();

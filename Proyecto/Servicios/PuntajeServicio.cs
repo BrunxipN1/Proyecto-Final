@@ -18,13 +18,13 @@ namespace Proyecto.Servicios
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:5001/")
+                BaseAddress = new Uri("http://localhost:43660/")
             };
         }
 
-        public async Task<PuntajeDTO> CalcularPuntaje(PuntajeRequestDTO puntajeRequest)
+        public async Task<PuntajeDTO> CalcularPuntaje(CalculoPuntajeDTO calculoPuntaje)
         {
-            var json = JsonConvert.SerializeObject(puntajeRequest);
+            var json = JsonConvert.SerializeObject(calculoPuntaje);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync("Puntaje/calcular", content);

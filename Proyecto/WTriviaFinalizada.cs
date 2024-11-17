@@ -16,22 +16,19 @@ namespace Proyecto
     public partial class WTriviaFinalizada : Form
     {
         internal WMain iVentanaMain;
-        internal UsuarioDTO iUsuario;
         internal int iSegundos;
         internal int iCantPreguntas;
         internal int iCantCorrectas;
         private int iCantIncorrectas;
-        private PuntajeDTO iPuntaje;
-        internal DificultadDTO iDificultad;
-        private readonly PuntajeComponente _puntajeComponente;
+        internal string iPuntaje;
+        internal string iDificultad;
 
         public WTriviaFinalizada()
         {
             InitializeComponent();
-            _puntajeComponente = new PuntajeComponente();
         }
 
-        public async void ConstruirVentana()
+        public void ConstruirVentana()
         {
             try
             {
@@ -41,20 +38,8 @@ namespace Proyecto
                 iCantIncorrectas = iCantPreguntas - iCantCorrectas;
                 LCantCorrectas.Text = $"{iCantCorrectas:00}/{iCantPreguntas:00}";
                 LCantIncorrectas.Text = $"{iCantIncorrectas:00}/{iCantPreguntas:00}";
-                LDificultad.Text = iDificultad.NombreDificultad;
-
-                var puntajeRequest = new PuntajeRequestDTO
-                {
-                    Usuario = iUsuario,
-                    CantCorrectas = iCantCorrectas,
-                    CantPreguntas = iCantPreguntas,
-                    Tiempo = iSegundos,
-                    Dificultad = iDificultad
-                };
-
-                iPuntaje = await _puntajeComponente.CalcularPuntaje(puntajeRequest);
-
-                LPuntuacion.Text = iPuntaje.ValorPuntaje.ToString("0.000");
+                LDificultad.Text = iDificultad;
+                LPuntuacion.Text = iPuntaje;
             }
             catch (Exception ex)
             {

@@ -12,10 +12,12 @@ namespace Proyecto.Componentes
     internal class TriviaComponente
     {
         private readonly TriviaServicio _triviaServicio;
+        private readonly List<PreguntaDTO> _preguntasEvaluadas;
 
         public TriviaComponente()
         {
             _triviaServicio = new TriviaServicio();
+            _preguntasEvaluadas = new List<PreguntaDTO>();
         }
 
         public async Task<List<CategoriaDTO>> ObtenerCategorias()
@@ -56,6 +58,27 @@ namespace Proyecto.Componentes
             };
 
             return await _triviaServicio.AgregarPreguntasDesdeWeb(request);
+        }
+
+        public PreguntaDTO MarcarRespuestaSeleccionada(PreguntaDTO pregunta, int idRespuestaSeleccionada)
+        {
+            foreach (var respuesta in pregunta.Respuestas)
+            {
+                respuesta.Seleccionada = respuesta.IdRespuesta == idRespuestaSeleccionada;
+            }
+            return pregunta;
+        }
+
+        public async Task<PreguntaDTO> VerificarPregunta(PreguntaDTO preguntaDTO)
+        {
+            var resultado = await _triviaServicio.VerificarPregunta(preguntaDTO);
+            _preguntasEvaluadas.Add(resultado);
+            return resultado;
+        }
+
+        public List<PreguntaDTO> ObtenerPreguntasEvaluadas()
+        {
+            return _preguntasEvaluadas;
         }
     }
 }

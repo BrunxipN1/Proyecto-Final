@@ -17,7 +17,7 @@ namespace Proyecto.Servicios
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:5001")
+                BaseAddress = new Uri("http://localhost:43660/")
             };
         }
 
@@ -41,17 +41,11 @@ namespace Proyecto.Servicios
             }
         }
 
-        public async Task<UsuarioDTO> AutenticarUsuario(string nombreUsuario, string password)
+        public async Task<UsuarioDTO> AutenticarUsuario(UsuarioDTO usuarioDTO)
         {
             try
             {
-                var loginData = new
-                {
-                    NombreUsuario = nombreUsuario,
-                    Password = password
-                };
-
-                var json = JsonConvert.SerializeObject(loginData);
+                var json = JsonConvert.SerializeObject(usuarioDTO);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("Usuario/autenticar", content);

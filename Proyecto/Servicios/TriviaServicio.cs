@@ -17,7 +17,7 @@ namespace Proyecto.Servicios
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:5001")
+                BaseAddress = new Uri("http://localhost:43660/")
             };
         }
 
@@ -74,6 +74,18 @@ namespace Proyecto.Servicios
 
             var response = await _httpClient.PostAsync("Trivia/obtenerPreguntasDesdeAPI", content);
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<PreguntaDTO> VerificarPregunta(PreguntaDTO preguntaDTO)
+        {
+            var json = JsonConvert.SerializeObject(preguntaDTO);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("Trivia/verificarPregunta", content);
+            response.EnsureSuccessStatusCode();
+
+            var responseBody = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<PreguntaDTO>(responseBody);
         }
     }
 }
