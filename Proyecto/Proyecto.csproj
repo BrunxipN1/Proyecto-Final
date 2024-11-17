@@ -286,7 +286,6 @@
     <EmbeddedResource Include="Ventanas\WTriviaFinalizada.resx">
       <DependentUpon>WTriviaFinalizada.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="settings.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
