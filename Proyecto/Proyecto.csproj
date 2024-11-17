@@ -196,6 +196,7 @@
     <Compile Include="Servicios\PuntajeServicio.cs" />
     <Compile Include="Servicios\UsuarioServicio.cs" />
     <Compile Include="Usuario.cs" />
+    <Compile Include="Utils\Enums.cs" />
     <Compile Include="WConfigurarTrivia.cs">
       <SubType>Form</SubType>
     </Compile>

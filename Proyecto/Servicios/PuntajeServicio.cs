@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Proyecto.Servicios.DTO;
 using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Proyecto.Servicios
 {
@@ -17,20 +18,20 @@ namespace Proyecto.Servicios
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:43660/")
+                BaseAddress = new Uri("http://localhost:5001/")
             };
         }
 
         public async Task<PuntajeDTO> CalcularPuntaje(PuntajeRequestDTO puntajeRequest)
         {
-            var json = JsonSerializer.Serialize(puntajeRequest);
+            var json = JsonConvert.SerializeObject(puntajeRequest);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync("Puntaje/calcular", content);
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<PuntajeDTO>(responseBody);
+            return JsonConvert.DeserializeObject < PuntajeDTO >(responseBody);
         }
 
         public async Task<List<PuntajeDTO>> ObtenerPuntajes()
@@ -39,7 +40,7 @@ namespace Proyecto.Servicios
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<List<PuntajeDTO>>(responseBody);
+            return JsonConvert.DeserializeObject<List<PuntajeDTO>>(responseBody);
         }
     }
 }

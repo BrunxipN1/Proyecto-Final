@@ -117,6 +117,7 @@
             this.TConfirm.Name = "TConfirm";
             this.TConfirm.Size = new System.Drawing.Size(217, 23);
             this.TConfirm.TabIndex = 3;
+            this.TConfirm.UseSystemPasswordChar = true;
             this.TConfirm.TextChanged += new System.EventHandler(this.TConfirm_TextChanged);
             // 
             // label4

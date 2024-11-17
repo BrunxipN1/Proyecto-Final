@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Proyecto.Servicios.DTO;
 using Proyecto.Servicios;
+using static Proyecto.Utils.Enums;
 
 namespace Proyecto.Componentes
 {
@@ -44,13 +45,14 @@ namespace Proyecto.Componentes
             return await _triviaServicio.GuardarPreguntaManual(pregunta);
         }
 
-        public async Task<bool> AgregarPreguntasDesdeWeb(CategoriaDTO categoria, DificultadDTO dificultad, int cantidad)
+        public async Task<bool> AgregarPreguntasDesdeWeb(CategoriaDTO categoria, DificultadDTO dificultad, int cantidad, ApisElegiblesEnum api)
         {
             var request = new PreguntaWebRequestDTO
             {
-                CategoriaId = categoria.IdCategoria,
-                DificultadId = dificultad.IdDificultad,
-                Cantidad = cantidad
+                categoriaId = categoria.IdCategoria,
+                dificultadId = dificultad.IdDificultad,
+                cantidad = cantidad,
+                api = ApisElegiblesEnum.OpenTDB
             };
 
             return await _triviaServicio.AgregarPreguntasDesdeWeb(request);

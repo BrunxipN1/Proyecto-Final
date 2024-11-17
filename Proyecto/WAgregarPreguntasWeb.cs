@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Proyecto.Utils.Enums;
 
 namespace Proyecto
 {
@@ -69,7 +70,7 @@ namespace Proyecto
                     var categoria = (CategoriaDTO)TCategoria.SelectedItem;
                     var dificultad = (DificultadDTO)TDificultad.SelectedItem;
 
-                    var resultado = await _triviaComponente.AgregarPreguntasDesdeWeb(categoria, dificultad, (int)TCantidad.Value);
+                    var resultado = await _triviaComponente.AgregarPreguntasDesdeWeb(categoria, dificultad, (int)TCantidad.Value, ApisElegiblesEnum.OpenTDB);
 
                     if (resultado)
                     {

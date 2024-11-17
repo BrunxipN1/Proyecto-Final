@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Proyecto.Servicios.DTO;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Proyecto.Servicios
 {
@@ -17,7 +17,7 @@ namespace Proyecto.Servicios
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:43660/")
+                BaseAddress = new Uri("http://localhost:5001")
             };
         }
 
@@ -27,7 +27,7 @@ namespace Proyecto.Servicios
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<List<CategoriaDTO>>(responseBody);
+            return JsonConvert.DeserializeObject<List<CategoriaDTO>>(responseBody);
         }
 
         public async Task<List<DificultadDTO>> ObtenerDificultades()
@@ -36,21 +36,21 @@ namespace Proyecto.Servicios
             response.EnsureSuccessStatusCode();
 
             var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<List<DificultadDTO>>(responseBody);
+            return JsonConvert.DeserializeObject<List<DificultadDTO>>(responseBody);
         }
 
         public async Task<List<PreguntaDTO>> ObtenerPreguntas(PreguntaRequestDTO requestDTO)
         {
             try
             {
-                var json = JsonSerializer.Serialize(requestDTO);
+                var json = JsonConvert.SerializeObject(requestDTO);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("Trivia/obtenerPreguntas", content);
                 response.EnsureSuccessStatusCode();
 
                 var responseBody = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<PreguntaDTO>>(responseBody);
+                return JsonConvert.DeserializeObject<List<PreguntaDTO>>(responseBody);
             }
             catch (Exception ex)
             {
@@ -61,7 +61,7 @@ namespace Proyecto.Servicios
 
         public async Task<bool> GuardarPreguntaManual(PreguntaDTO pregunta)
         {
-            var json = JsonSerializer.Serialize(pregunta);
+            var json = JsonConvert.SerializeObject(pregunta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync("Trivia/guardarPreguntaManual", content);
@@ -70,10 +70,10 @@ namespace Proyecto.Servicios
 
         public async Task<bool> AgregarPreguntasDesdeWeb(PreguntaWebRequestDTO request)
         {
-            var json = JsonSerializer.Serialize(request);
+            var json = JsonConvert.SerializeObject(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("Trivia/agregarPreguntasDesdeWeb", content);
+            var response = await _httpClient.PostAsync("Trivia/obtenerPreguntasDesdeAPI", content);
             return response.IsSuccessStatusCode;
         }
     }

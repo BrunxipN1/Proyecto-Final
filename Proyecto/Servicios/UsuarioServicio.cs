@@ -1,4 +1,5 @@
-﻿using Proyecto.Servicios.DTO;
+﻿using Newtonsoft.Json;
+using Proyecto.Servicios.DTO;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Proyecto.Servicios
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:43660/")
+                BaseAddress = new Uri("http://localhost:5001")
             };
         }
 
@@ -24,14 +25,14 @@ namespace Proyecto.Servicios
         {
             try
             {
-                var json = JsonSerializer.Serialize(usuarioDTO);
+                var json = JsonConvert.SerializeObject(usuarioDTO);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("Usuario/crear", content);
                 response.EnsureSuccessStatusCode();
 
                 var responseBody = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<UsuarioDTO>(responseBody);
+                return JsonConvert.DeserializeObject<UsuarioDTO>(responseBody);
             }
             catch (Exception ex)
             {
@@ -50,14 +51,14 @@ namespace Proyecto.Servicios
                     Password = password
                 };
 
-                var json = JsonSerializer.Serialize(loginData);
+                var json = JsonConvert.SerializeObject(loginData);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("Usuario/autenticar", content);
                 response.EnsureSuccessStatusCode();
 
                 var responseBody = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<UsuarioDTO>(responseBody);
+                return JsonConvert.DeserializeObject<UsuarioDTO>(responseBody);
             }
             catch (Exception ex)
             {
