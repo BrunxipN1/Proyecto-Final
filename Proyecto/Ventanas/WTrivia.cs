@@ -59,6 +59,7 @@ namespace Proyecto
         internal void ConstruirDatos()
         {
             try {
+                // Construye la pantalla con pregunta y respuestas
                 LResultado.Enabled = false;
                 var preguntaActual = iLPreguntas[iIndex];
                 LPregunta.Text = preguntaActual.LaPregunta;
@@ -84,6 +85,7 @@ namespace Proyecto
                 var preguntaActual = iLPreguntas[iIndex];
                 var respuestaSeleccionada = iLResp[respuestaIndex];
 
+                // Marca la respuesta seleccionada y verifica la pregunta, dando color verde o rojo dependiendo si es correcta
                 preguntaActual = _triviaComponente.MarcarRespuestaSeleccionada(preguntaActual, respuestaSeleccionada.IdRespuesta);
 
                 var resultado = await _triviaComponente.VerificarPregunta(preguntaActual);
@@ -132,6 +134,7 @@ namespace Proyecto
 
                 if (iIndex < iLPreguntas.Count)
                 {
+                    // pasa a la siguiente pregunta
                     foreach (var label in iLLabels)
                     {
                         label.Enabled = true;
@@ -143,6 +146,7 @@ namespace Proyecto
                 }
                 else
                 {
+                    // terminan las preguntas y comienza el cálculo de puntaje
                     iFinalizado = true;
 
                     var preguntasEvaluadas = _triviaComponente.ObtenerPreguntasEvaluadas();
@@ -185,6 +189,7 @@ namespace Proyecto
 
         private void Timer2_Tick(object sender, EventArgs e)
         {
+            // contador en segundos
             if (!iPararContador)
             {
                 iSegundos++;

@@ -63,6 +63,7 @@ namespace Proyecto
             {
                 if (TCantidad.Value != 0)
                 {
+                    // Parametriza los datos necesarios para iniciar la trivia
                     var categoriaId = (int)TCategoria.SelectedValue;
                     var dificultadId = (int)TDificultad.SelectedValue;
                     var cantidad = (int)TCantidad.Value;

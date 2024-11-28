@@ -26,17 +26,6 @@ namespace Proyecto
             iSalir = true;
         }
 
-
-        private void VerPreguntas_Click(object sender, EventArgs e)
-        {
-            //ControladorProyecto.HardcodeamelasCategoriasmaestro();
-            //ControladorProyecto.Hardcodeameladificultadmaestro();
-
-            //WIniciarSesion vIniciarSesion = new WIniciarSesion();
-            //vIniciarSesion.Show();
-            //vIniciarSesion.iVentanaMain = this;
-        }
-
         private void PreguntaManual_Click(object sender, EventArgs e)
         {
             this.Visible = false;
@@ -52,25 +41,6 @@ namespace Proyecto
             vAddPregWeb.Show();
             vAddPregWeb.iVentanaMain = this;
         }
-
-
-
-
-        // DEBERIA REALIZARLO LA SEEEEED
-        private void AgregarCategoria_Click(object sender, EventArgs e)
-        {
-            //try
-            //{
-            //    ControladorProyecto.InicializarDificultades();
-            //    ControladorProyecto.InicializarCategorias();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error("WMain - AgregarCategoria_Click - 1: {Message}", ex.Message);
-            //    MessageBox.Show("Ha ocurrido un error al importar categorías.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-        }
-
 
 
         private void BJugar_Click(object sender, EventArgs e)

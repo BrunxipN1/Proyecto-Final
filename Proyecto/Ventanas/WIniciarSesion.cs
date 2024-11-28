@@ -31,6 +31,7 @@ namespace Proyecto
 
                     if (usuarioDTO != null)
                     {
+                        // Usuario encontrado
                         WMain vMain = new WMain(usuarioDTO);
                         vMain.iVIniciarSesion = this;
                         vMain.Show();

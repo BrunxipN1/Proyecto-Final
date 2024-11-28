@@ -79,7 +79,6 @@ namespace Proyecto
             this.LNombreUsuario.Size = new System.Drawing.Size(100, 13);
             this.LNombreUsuario.TabIndex = 7;
             this.LNombreUsuario.Text = "LNombreUsuario";
-            this.LNombreUsuario.Click += new System.EventHandler(this.VerPreguntas_Click);
             // 
             // BJugar
             // 
