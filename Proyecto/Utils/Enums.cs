@@ -8,6 +8,9 @@ namespace Proyecto.Utils
 {
     public class Enums
     {
+        /// <summary>
+        /// Identificativos de cada API de preguntas que se consumen
+        /// </summary>
         public enum ApisElegiblesEnum
         {
             OpenTDB = 1,

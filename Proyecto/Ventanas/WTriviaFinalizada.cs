@@ -32,6 +32,7 @@ namespace Proyecto
         {
             try
             {
+                // Muestra los resultados de la partida finalizada
                 TimeSpan tiempo = TimeSpan.FromSeconds(iSegundos);
                 LTiempoD.Text = tiempo.ToString(@"mm\:ss");
 

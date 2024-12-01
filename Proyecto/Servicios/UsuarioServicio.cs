@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Proyecto.Servicios
 {
+    /// <summary>
+    /// Servicio encargado de realizar las transacciones de datos referentes al Usuario con el servidor
+    /// </summary>
     internal class UsuarioServicio
     {
         private readonly HttpClient _httpClient;
@@ -22,6 +25,11 @@ namespace Proyecto.Servicios
             };
         }
 
+        /// <summary>
+        /// Registrar un nuevo usuario
+        /// </summary>
+        /// <param name="usuarioDTO">Entidad de Usuario DTO</param>
+        /// <returns>UsuarioDTO el usuario creado</returns>
         public async Task<UsuarioDTO> AgregarUsuario(UsuarioDTO usuarioDTO)
         {
             try
@@ -42,6 +50,11 @@ namespace Proyecto.Servicios
             }
         }
 
+        /// <summary>
+        /// Autenticar los datos ingresados del usuario
+        /// </summary>
+        /// <param name="usuarioDTO">Entidad de Usuario DTO</param>
+        /// <returns>UsuarioDTO el usuario autenticado</returns>
         public async Task<UsuarioDTO> AutenticarUsuario(UsuarioDTO usuarioDTO)
         {
             try
